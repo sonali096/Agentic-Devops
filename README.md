@@ -2,8 +2,6 @@
 
 **A White Paper on Autonomous, Policy-Aware AI Agents in DevOps**
 
-*December 2025*
-
 ---
 
 ## Table of Contents
@@ -197,33 +195,83 @@ Agentic DevOps does not eliminate human expertise—it amplifies it. The collabo
 
 ### 5.1 Architectural Overview
 
-The Agentic DevOps architecture comprises five layers:
+The Agentic DevOps architecture comprises five layers designed for modularity, scalability, and seamless integration with existing DevOps toolchains.
+
+#### **High-Level Architecture Diagram**
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Governance & Policy Layer                 │
-│  (Policy-as-Code, Approval Workflows, Audit Trails, RBAC)   │
-└─────────────────────────────────────────────────────────────┘
-                              ↕
-┌─────────────────────────────────────────────────────────────┐
-│                      Agentic Orchestration Layer             │
-│  (Agent Framework, Reasoning Engine, Memory, Tool Registry)  │
-└─────────────────────────────────────────────────────────────┘
-                              ↕
-┌─────────────────────────────────────────────────────────────┐
-│                     Domain-Specific Agents                   │
-│  Observability | CI/CD | Infrastructure | Security | FinOps  │
-└─────────────────────────────────────────────────────────────┘
-                              ↕
-┌─────────────────────────────────────────────────────────────┐
-│                      Integration Layer                       │
-│  (APIs, Event Streams, Tool Connectors, Data Adapters)      │
-└─────────────────────────────────────────────────────────────┘
-                              ↕
-┌─────────────────────────────────────────────────────────────┐
-│                    DevOps Ecosystem Layer                    │
-│  K8s | Cloud | Git | CI/CD | Observability | ITSM | IaC     │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                          GOVERNANCE & POLICY LAYER                                  │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌────────────┐ │
+│  │  Policy-as-Code  │  │ Approval Workflow│  │  Audit Trails    │  │    RBAC    │ │
+│  │  • OPA/Kyverno   │  │ • Multi-Tier     │  │ • Immutable Logs │  │ • Agent    │ │
+│  │  • Risk Policies │  │ • SLA Tracking   │  │ • Compliance Map │  │   Perms    │ │
+│  └──────────────────┘  └──────────────────┘  └──────────────────┘  └────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+                                        ↕
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                       AGENTIC ORCHESTRATION LAYER                                   │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐   │
+│  │  Agent Framework                                                            │   │
+│  │  • Lifecycle Mgmt  • Task Queue  • Inter-Agent Communication  • Scheduling │   │
+│  └─────────────────────────────────────────────────────────────────────────────┘   │
+│  ┌────────────────┐  ┌───────────────────┐  ┌──────────────────┐  ┌───────────┐   │
+│  │ Reasoning      │  │ Memory Subsystem  │  │  Tool Registry   │  │ Analytics │   │
+│  │ Engine         │  │ • Short-term      │  │ • API Catalog    │  │ Dashboard │   │
+│  │ • LLMs         │  │ • Long-term       │  │ • Runbooks       │  │ • Metrics │   │
+│  │ • ML Models    │  │ • Vector DB (RAG) │  │ • Success Rates  │  │ • Feedback│   │
+│  │ • Rule Engine  │  │ • Knowledge Graph │  │                  │  │   Loops   │   │
+│  └────────────────┘  └───────────────────┘  └──────────────────┘  └───────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+                                        ↕
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                          DOMAIN-SPECIFIC AGENTS                                     │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────┐ │
+│  │Observability │ │   CI/CD      │ │Infrastructure│ │  Security    │ │  FinOps  │ │
+│  │   Agent      │ │   Agent      │ │    Agent     │ │   Agent      │ │  Agent   │ │
+│  │──────────────│ │──────────────│ │──────────────│ │──────────────│ │──────────│ │
+│  │• Anomaly Det │ │• Test Intel  │ │• Right-Size  │ │• Vuln Scan   │ │• Cost    │ │
+│  │• RCA         │ │• Risk Score  │ │• Autoscaling │ │• Policy Enf  │ │  Optimiz │ │
+│  │• Auto-Remedy │ │• Progressive │ │• Capacity    │ │• Auto-Patch  │ │• Orphan  │ │
+│  │• Postmortems │ │  Delivery    │ │  Planning    │ │• Compliance  │ │  Cleanup │ │
+│  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ └──────────┘ │
+│                                                                                     │
+│  ┌──────────────────────────────────────────────────────────────────────────────┐  │
+│  │                    Collaboration & Knowledge Agent                           │  │
+│  │  • ChatOps  • RAG over Docs  • Auto-Documentation  • Cross-Team Learning    │  │
+│  └──────────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+                                        ↕
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                            INTEGRATION LAYER                                        │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌──────────┐ │
+│  │ API Gateway │  │Event Broker │  │   Tool      │  │    Data     │  │  Auth/   │ │
+│  │ • REST      │  │ • Kafka     │  │ Connectors  │  │  Adapters   │  │  AuthZ   │ │
+│  │ • GraphQL   │  │ • RabbitMQ  │  │ • Pre-built │  │ • Schema    │  │ • OAuth  │ │
+│  │ • gRPC      │  │ • Webhooks  │  │ • Custom    │  │   Transform │  │ • RBAC   │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘  └──────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+                                        ↕
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                         DEVOPS ECOSYSTEM LAYER                                      │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │Container │ │  Cloud   │ │   VCS    │ │  CI/CD   │ │Observ-   │ │  ITSM    │    │
+│  │Orchestr. │ │Providers │ │          │ │          │ │ability   │ │          │    │
+│  │──────────│ │──────────│ │──────────│ │──────────│ │──────────│ │──────────│    │
+│  │• K8s     │ │• AWS     │ │• GitHub  │ │• Jenkins │ │• Prom    │ │• Jira    │    │
+│  │• Docker  │ │• Azure   │ │• GitLab  │ │• GH Act  │ │• Datadog │ │• SvcNow  │    │
+│  │• ECS/AKS │ │• GCP     │ │• Bitbuck │ │• Argo CD │ │• Grafana │ │• PagerD  │    │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘    │
+│                                                                                     │
+│  ┌──────────┐ ┌──────────┐ ┌──────────────────────────────────────────────┐        │
+│  │Security  │ │   IaC    │ │            Additional Tools                  │        │
+│  │Tools     │ │          │ │  • APM  • Log Aggregation  • Chat Platforms  │        │
+│  │──────────│ │──────────│ │  • Secret Mgmt  • Cost Tools  • Databases    │        │
+│  │• Snyk    │ │• Terraform│└──────────────────────────────────────────────┘        │
+│  │• Aqua    │ │• Pulumi  │                                                         │
+│  │• Trivy   │ │• Ansible │                                                         │
+│  └──────────┘ └──────────┘                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 5.2 Layer Details
@@ -255,35 +303,481 @@ Provides normalized access to ecosystem tools:
 
 Specialized agents for specific DevOps domains:
 
-**Observability Agent**
-- Correlate metrics, logs, traces, events
-- Detect anomalies using ML models
-- Perform root-cause analysis
-- Generate incident postmortems
+##### **Observability Agent**
 
-**CI/CD Agent**
-- Prioritize test execution
-- Identify and quarantine flaky tests
-- Make deployment go/no-go decisions
-- Orchestrate progressive rollouts and rollbacks
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Observability Agent                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Signal Ingestion & Correlation Layer           │  │
+│  │  • Metrics Collector (Prometheus, Datadog, CloudWatch)   │  │
+│  │  • Log Aggregator (ELK, Splunk, Loki)                   │  │
+│  │  • Trace Collector (Jaeger, Zipkin, APM)                │  │
+│  │  • Event Stream Processor (Kafka, Kinesis)              │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Anomaly Detection Engine                    │  │
+│  │  • Time-Series Analysis (ARIMA, Prophet, LSTM)          │  │
+│  │  • Statistical Methods (Z-score, IQR, Moving Average)   │  │
+│  │  • ML Models (Isolation Forest, Autoencoders)           │  │
+│  │  • Pattern Recognition (Recurring incidents)            │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Root Cause Analysis (RCA) Engine              │  │
+│  │  • Dependency Graph Traversal                            │  │
+│  │  • Change Correlation (Deployments, Config, Infra)      │  │
+│  │  • Log Pattern Analysis                                  │  │
+│  │  • Trace Path Analysis                                   │  │
+│  │  • Hypothesis Generation & Ranking                       │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Remediation Orchestrator                    │  │
+│  │  • Runbook Repository & Selection                        │  │
+│  │  • Automated Remediation Execution                       │  │
+│  │  • Rollback Coordination                                 │  │
+│  │  • Escalation Management                                 │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Postmortem & Knowledge Generator               │  │
+│  │  • Incident Timeline Construction                        │  │
+│  │  • Root Cause Documentation                              │  │
+│  │  • Prevention Recommendations                            │  │
+│  │  • Runbook Updates                                       │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-**Infrastructure Agent**
-- Right-size compute and storage resources
-- Predict capacity needs
-- Automate scaling policies
-- Enforce reliability patterns (circuit breakers, retries, timeouts)
+**Key Capabilities:**
+- **Multi-Signal Correlation**: Combines metrics (CPU, latency, error rate), logs (error messages, stack traces), traces (request paths), and events (deployments, scaling) to detect anomalies that single-source monitoring would miss
+- **Context-Aware Anomaly Detection**: Uses baseline models that adapt to time-of-day patterns, deployment windows, and seasonal trends
+- **Intelligent Alert Grouping**: Clusters related alerts to reduce noise (e.g., 50 pod failures grouped as single "service degradation" incident)
+- **Automated RCA**: Analyzes deployment history, configuration changes, and dependency failures to identify root causes
+- **Self-Healing Execution**: Executes runbooks (pod restarts, cache clears, traffic rerouting) with confidence-based automation
+- **Continuous Learning**: Updates anomaly models based on incident outcomes and human feedback
 
-**Security Agent**
-- Scan code, dependencies, container images, configurations
-- Enforce policy-as-code (OPA, Kyverno)
-- Auto-remediate low-risk vulnerabilities
-- Collect and organize audit evidence
+**Example Workflow:**
+1. Detects latency spike (95th percentile +200%) in payment service
+2. Correlates with error rate increase and recent deployment
+3. Analyzes deployment diff, identifies new database query pattern
+4. Hypothesis: N+1 query causing DB overload (confidence: 0.89)
+5. Executes rollback runbook (confidence > 0.85 threshold)
+6. Monitors recovery, confirms latency normalized
+7. Generates postmortem with SQL query optimization recommendation
+8. Updates runbook library with new detection pattern
 
-**FinOps Agent**
-- Identify orphaned and underutilized resources
-- Recommend cost optimizations
-- Monitor budget thresholds
-- Analyze spending trends and anomalies
+**Integration Points:**
+- Prometheus/Grafana, Datadog, New Relic (metrics)
+- ELK Stack, Splunk, Loki (logs)
+- Jaeger, Zipkin, Datadog APM (traces)
+- PagerDuty, Opsgenie, Slack (alerting)
+- Kubernetes, Cloud APIs (remediation)
+
+---
+
+##### **CI/CD Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        CI/CD Agent                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Code Change Analysis Module                 │  │
+│  │  • Git Diff Analysis (files changed, churn, complexity) │  │
+│  │  • Author Experience Scoring                             │  │
+│  │  • Historical Failure Correlation                        │  │
+│  │  • Dependency Impact Assessment                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Test Intelligence & Optimization               │  │
+│  │  • Flaky Test Detection (pass/fail pattern analysis)    │  │
+│  │  • Test Prioritization (impact-based selection)         │  │
+│  │  • Test Generation (coverage gap identification)        │  │
+│  │  • Parallel Execution Planning                           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Risk Assessment Engine                      │  │
+│  │  • Change Risk Scoring (0.0 - 1.0)                      │  │
+│  │  • Blast Radius Estimation                               │  │
+│  │  • Rollback Complexity Evaluation                        │  │
+│  │  • Go/No-Go Decision Logic                              │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Progressive Delivery Orchestrator                │  │
+│  │  • Canary Deployment Strategy                            │  │
+│  │  • Blue-Green Switching Logic                            │  │
+│  │  • Traffic Shaping (1% → 10% → 50% → 100%)             │  │
+│  │  • Success Metrics Monitoring                            │  │
+│  │  • Automated Rollback Triggers                           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Pipeline Optimization Module                │  │
+│  │  • Build Cache Management                                │  │
+│  │  • Bottleneck Identification                             │  │
+│  │  • Resource Right-Sizing (runner specs)                 │  │
+│  │  • Parallelization Recommendations                       │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Flaky Test Management**: Identifies tests with inconsistent results (e.g., passes 70% of time), quarantines them automatically, and creates tickets for investigation
+- **Smart Test Selection**: Runs only tests affected by code changes, reducing pipeline time from 45 minutes to 15 minutes
+- **Risk-Based Approvals**: Scores deployments (low/medium/high risk) based on change complexity, test coverage, and historical data
+- **Progressive Delivery Automation**: Orchestrates canary rollouts with automatic promotion or rollback based on error rates, latency, and business metrics
+- **Pipeline Performance Optimization**: Identifies slow steps, suggests parallelization, and right-sizes runner resources
+- **Test Generation**: Uses code analysis to identify untested paths and generates skeleton test cases
+
+**Example Workflow:**
+1. Developer pushes code change to payment service
+2. Agent analyzes diff: 150 lines changed in core transaction logic
+3. Identifies 25 relevant tests (vs. 500 total), runs targeted suite
+4. Detects flaky test "testPaymentRetry" (60% pass rate), quarantines it
+5. Risk score: 0.72 (high) due to critical code path changes
+6. Requires manual approval before production deployment
+7. Upon approval, initiates canary: 5% traffic for 10 minutes
+8. Monitors error rate (0.01% baseline, 0.015% canary - within threshold)
+9. Promotes to 50%, then 100% over 30 minutes
+10. Logs decision trail for audit
+
+**Integration Points:**
+- GitHub, GitLab, Bitbucket (code analysis)
+- Jenkins, GitHub Actions, CircleCI, Argo CD (pipeline orchestration)
+- JUnit, pytest, Jest (test results)
+- Kubernetes, Istio, Linkerd (traffic shaping)
+- Datadog, Prometheus (deployment metrics)
+
+---
+
+##### **Infrastructure Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   Infrastructure Agent                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Resource Utilization Monitor                   │  │
+│  │  • CPU, Memory, Disk, Network Usage Tracking            │  │
+│  │  • Pod/Container-level Metrics                           │  │
+│  │  • Node-level Resource Allocation                        │  │
+│  │  • Cross-Cloud Resource Inventory                        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Right-Sizing Recommendation Engine            │  │
+│  │  • Historical Usage Analysis (30-90 day trends)         │  │
+│  │  • Peak vs. Average Utilization                          │  │
+│  │  • Instance Type Optimization (cost/performance)        │  │
+│  │  • Storage Tier Recommendations                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Predictive Capacity Planning Module             │  │
+│  │  • Time-Series Forecasting (traffic, load)              │  │
+│  │  • Seasonal Pattern Detection                            │  │
+│  │  • Growth Trend Analysis                                 │  │
+│  │  • Resource Exhaustion Prediction                        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Automated Scaling Orchestrator                 │  │
+│  │  • HPA (Horizontal Pod Autoscaler) Tuning               │  │
+│  │  • VPA (Vertical Pod Autoscaler) Configuration          │  │
+│  │  • Cluster Autoscaler Optimization                       │  │
+│  │  • Predictive Scaling (ahead of known spikes)           │  │
+│  │  • Scale-to-Zero for Idle Workloads                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Reliability Pattern Enforcement                  │  │
+│  │  • Circuit Breaker Configuration (Istio, Envoy)         │  │
+│  │  • Retry Policy Optimization                             │  │
+│  │  • Timeout Tuning                                        │  │
+│  │  • Health Check Validation                               │  │
+│  │  • Chaos Engineering Recommendations                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Intelligent Right-Sizing**: Analyzes actual vs. requested resources, recommends downsizing over-provisioned pods (e.g., 4 CPU requested, 0.5 CPU used → recommend 1 CPU)
+- **Predictive Scaling**: Forecasts traffic spikes (Black Friday, product launches) and pre-scales infrastructure
+- **Multi-Cloud Optimization**: Compares costs across AWS/Azure/GCP and recommends workload placement
+- **Automated Scaling Policies**: Dynamically adjusts HPA thresholds based on traffic patterns and SLO requirements
+- **Reliability Engineering**: Ensures circuit breakers, retries, and timeouts are configured per service
+- **Capacity Alerting**: Predicts resource exhaustion (e.g., "Disk will be full in 48 hours") and takes proactive action
+
+**Example Workflow:**
+1. Monitors microservice cluster: 50 pods, 8 CPU requested each (400 total)
+2. Analyzes 30-day usage: Average 2 CPU used per pod (100 total, 75% waste)
+3. Recommendation: Reduce requests to 3 CPU per pod, add HPA (2-10 replicas)
+4. Risk assessment: Low (non-production staging environment)
+5. Applies changes during maintenance window
+6. Monitors for 7 days: Performance stable, cost reduced 60%
+7. Generates report for production rollout approval
+
+**Integration Points:**
+- Kubernetes API (deployments, HPAs, resource quotas)
+- AWS/Azure/GCP APIs (EC2, RDS, S3, VMs, storage)
+- Prometheus, cAdvisor (resource metrics)
+- Terraform, Pulumi (infrastructure-as-code updates)
+- Cost management tools (AWS Cost Explorer, Azure Cost Management)
+
+---
+
+##### **Security Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       Security Agent                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Continuous Scanning Orchestrator                │  │
+│  │  • SAST (Static Application Security Testing)           │  │
+│  │  • DAST (Dynamic Application Security Testing)          │  │
+│  │  • SCA (Software Composition Analysis)                  │  │
+│  │  • Container Image Scanning                              │  │
+│  │  • IaC Security Scanning (Terraform, CloudFormation)    │  │
+│  │  • Secret Detection (API keys, passwords in code)       │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Vulnerability Correlation Engine                │  │
+│  │  • Cross-Tool Deduplication                              │  │
+│  │  • CVE Database Integration (NVD, GitHub Advisory)      │  │
+│  │  • CVSS Scoring & Prioritization                         │  │
+│  │  • Exploitability Assessment                             │  │
+│  │  • Attack Surface Analysis                               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Policy-as-Code Enforcement Engine              │  │
+│  │  • OPA (Open Policy Agent) / Kyverno Integration        │  │
+│  │  • Admission Controller (K8s ValidatingWebhook)         │  │
+│  │  • Compliance Rule Evaluation (CIS, PCI-DSS, HIPAA)    │  │
+│  │  • Drift Detection (runtime vs. baseline)               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Intelligent Remediation Orchestrator             │  │
+│  │  • Auto-Patching (dependency upgrades)                   │  │
+│  │  • Configuration Fixes (security headers, permissions)  │  │
+│  │  • Ticket Creation (high-risk, manual review)           │  │
+│  │  • Remediation SLA Tracking                              │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Compliance Evidence Collector                   │  │
+│  │  • Audit Log Aggregation                                 │  │
+│  │  • Control Mapping (SOC 2, ISO 27001, GDPR)            │  │
+│  │  • Evidence Package Generation                           │  │
+│  │  • Compliance Gap Reporting                              │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Shift-Left Security**: Scans code commits before merge, blocks PRs with critical vulnerabilities
+- **Continuous Vulnerability Monitoring**: Tracks CVEs across dependencies, container images, and infrastructure
+- **Intelligent Prioritization**: Scores vulnerabilities by CVSS, exploitability, exposure, and business impact
+- **Automated Remediation**: Auto-upgrades low-risk dependencies, generates patches for common issues
+- **Policy Enforcement**: Blocks deployments that violate security policies (e.g., containers running as root)
+- **Compliance Automation**: Maps security controls to regulatory frameworks, generates audit reports
+
+**Example Workflow:**
+1. Developer commits code with dependency on Log4j 2.14.1
+2. SCA scan detects CVE-2021-44228 (Log4Shell, CVSS 10.0, critical)
+3. Agent blocks PR merge, comments with remediation guidance
+4. Auto-generates patch: Upgrade to Log4j 2.17.1 (safe version)
+5. Creates new commit with fix, requests developer review
+6. Upon approval, re-scans: Vulnerability resolved
+7. Deployment proceeds, compliance evidence auto-collected
+8. Updates vulnerability dashboard: Mean remediation time 2 hours
+
+**Integration Points:**
+- Snyk, Aqua, Trivy, Grype (vulnerability scanning)
+- GitHub Advanced Security, GitLab Security Dashboard
+- OPA, Kyverno (policy enforcement)
+- ServiceNow, Jira (ticket creation)
+- Vault, AWS Secrets Manager (secret management)
+
+---
+
+##### **FinOps Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        FinOps Agent                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Cloud Cost Data Aggregator                     │  │
+│  │  • AWS Cost Explorer / Cost & Usage Reports             │  │
+│  │  • Azure Cost Management                                 │  │
+│  │  • GCP BigQuery Billing Export                          │  │
+│  │  • Kubernetes Cost Attribution (Kubecost, OpenCost)     │  │
+│  │  • Multi-Cloud Normalization                             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Resource Lifecycle Manager                      │  │
+│  │  • Orphaned Resource Detection                           │  │
+│  │    - Unattached EBS volumes, unused Elastic IPs         │  │
+│  │    - Forgotten snapshots, old AMIs                       │  │
+│  │    - Idle load balancers, unused NAT gateways           │  │
+│  │  • Tagging Enforcement & Validation                      │  │
+│  │  • Retention Policy Automation                           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Spend Anomaly Detection Engine                   │  │
+│  │  • Daily/Weekly Spend Pattern Analysis                   │  │
+│  │  • Threshold-Based Alerting (budget overruns)           │  │
+│  │  • Unsual Usage Pattern Detection                        │  │
+│  │  • Root Cause Analysis (which service/team/project)     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Cost Optimization Recommender                    │  │
+│  │  • Reserved Instance / Savings Plan Recommendations     │  │
+│  │  • Spot Instance Opportunities                           │  │
+│  │  • Storage Tier Optimization (S3 Intelligent-Tiering)   │  │
+│  │  • Right-Sizing (see Infrastructure Agent integration)  │  │
+│  │  • Idle Resource Shutdown Scheduling                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │       Cost Attribution & Showback Generator              │  │
+│  │  • Team/Project/Environment Tagging                      │  │
+│  │  • Cost Allocation by Business Unit                      │  │
+│  │  • Chargeback/Showback Report Generation                │  │
+│  │  • Budget Forecasting & Burn Rate Tracking              │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Orphaned Resource Cleanup**: Identifies and auto-deletes resources no longer in use (with approval workflows)
+- **Spend Anomaly Detection**: Alerts on unexpected cost spikes (e.g., "Data transfer costs up 300% today")
+- **Cost Attribution**: Tags every resource with owner, project, environment for accurate showback
+- **Optimization Recommendations**: Suggests reserved instances, storage tier changes, idle resource shutdowns
+- **Budget Management**: Tracks burn rate, forecasts month-end spend, alerts before overruns
+- **Multi-Cloud Cost Comparison**: Identifies opportunities to shift workloads for cost arbitrage
+
+**Example Workflow:**
+1. Daily scan identifies 150 unattached EBS volumes across AWS accounts
+2. Total cost: $3,000/month wasted
+3. Analyzes volume age: 120 volumes > 30 days old, no recent snapshots
+4. Policy check: Auto-delete volumes > 90 days with no snapshots (low-risk)
+5. Creates tickets for 30 volumes 30-90 days old (medium-risk, manual review)
+6. Notifies teams of pending deletions (7-day grace period)
+7. Executes cleanup: 120 volumes deleted, $2,400/month saved
+8. Updates cost dashboard, generates monthly FinOps report
+
+**Integration Points:**
+- AWS Cost Explorer, Azure Cost Management, GCP Billing
+- Kubecost, OpenCost (Kubernetes cost attribution)
+- Terraform, CloudFormation (IaC cost analysis)
+- Slack, Email (cost alerts and reports)
+- CMDB/ITSM for asset tracking
+
+---
+
+##### **Collaboration & Knowledge Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                Collaboration & Knowledge Agent                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Conversational Interface Layer                  │  │
+│  │  • ChatOps Integration (Slack, Microsoft Teams)         │  │
+│  │  • Natural Language Query Processing (LLM)              │  │
+│  │  • Intent Recognition & Routing                          │  │
+│  │  • Multi-Turn Conversation Management                    │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │        Knowledge Base & Memory Subsystem                 │  │
+│  │  • Vector Database (embeddings for semantic search)     │  │
+│  │  • Runbook Repository                                    │  │
+│  │  • Incident History & Postmortems                        │  │
+│  │  • Architecture Diagrams & Documentation                 │  │
+│  │  • Decision Logs & Audit Trails                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │      Retrieval-Augmented Generation (RAG) Engine         │  │
+│  │  • Semantic Search over Documentation                    │  │
+│  │  • Context-Aware Response Generation                     │  │
+│  │  • Source Citation & Traceability                        │  │
+│  │  • Hallucination Detection & Mitigation                  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Documentation Maintenance Automation             │  │
+│  │  • Runbook Auto-Update (based on incident resolutions)  │  │
+│  │  • Drift Detection (code vs. docs)                       │  │
+│  │  • Onboarding Guide Generation                           │  │
+│  │  • Architecture Diagram Sync                             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │        Cross-Team Learning & Pattern Recognition         │  │
+│  │  • Incident Pattern Analysis (recurring issues)         │  │
+│  │  • Best Practice Identification & Sharing                │  │
+│  │  • Knowledge Graph Construction (service dependencies)  │  │
+│  │  • Skill Gap Analysis & Training Recommendations        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Natural Language Operations**: Engineers ask questions in Slack; agent retrieves context and provides answers
+- **Automated Documentation**: Updates runbooks and docs based on actual incident resolutions
+- **Institutional Memory**: Preserves knowledge across team changes, accessible via semantic search
+- **Onboarding Acceleration**: Generates context-specific guides for new engineers
+- **Cross-Team Learning**: Identifies patterns across teams, recommends process improvements
+
+**Example Workflow:**
+1. Engineer in Slack: "@agent why did payment service fail last night?"
+2. Agent searches incident history, finds related postmortem
+3. Response: "Payment service failed due to database connection pool exhaustion after deployment at 22:35. Root cause: increased traffic + insufficient pool size. Rolled back at 23:10. Recommendation: increase max connections from 50 to 100."
+4. Engineer: "@agent show me the runbook"
+5. Agent retrieves and displays rollback runbook with step-by-step instructions
+6. Agent updates runbook with new pool size recommendation for future
+
+**Integration Points:**
+- Slack, Microsoft Teams (ChatOps)
+- Confluence, Notion, GitHub Wiki (documentation)
+- ITSM systems (incident history)
+- Vector databases (Pinecone, Weaviate, ChromaDB)
+- LLMs (OpenAI, Anthropic, open-source models)
 
 #### 5.2.4 Agentic Orchestration Layer
 
@@ -293,6 +787,255 @@ The core intelligence engine:
 - Agent lifecycle management (creation, scheduling, termination)
 - Task queuing and prioritization
 - Inter-agent communication and coordination
+
+#### **Reasoning and Decision-Making Architecture**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                   AGENTIC REASONING & DECISION ENGINE                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+INPUT: Goal + Context + Signals
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 1: PERCEPTION & CONTEXT GATHERING                                     │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Multi-Source Data Collection                                        │  │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────┐ │  │
+│  │  │ Metrics  │  │   Logs   │  │  Traces  │  │  Events  │  │ Config │ │  │
+│  │  │ • CPU    │  │ • Errors │  │ • Spans  │  │ • Deploy │  │ • YAML │ │  │
+│  │  │ • Memory │  │ • Warns  │  │ • Timing │  │ • Scaling│  │ • Env  │ │  │
+│  │  │ • Latency│  │ • Stack  │  │ • Deps   │  │ • Alerts │  │ • Flags│ │  │
+│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘  └────────┘ │  │
+│  │         │             │             │             │            │      │  │
+│  │         └─────────────┴─────────────┴─────────────┴────────────┘      │  │
+│  │                              │                                         │  │
+│  │                              ▼                                         │  │
+│  │                   ┌────────────────────────┐                           │  │
+│  │                   │  Data Normalization    │                           │  │
+│  │                   │  • Schema alignment    │                           │  │
+│  │                   │  • Time sync           │                           │  │
+│  │                   │  • Deduplication       │                           │  │
+│  │                   └────────────────────────┘                           │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 2: ANALYSIS & CORRELATION                                             │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Pattern Recognition & Correlation                                    │  │
+│  │                                                                        │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  Time-Series Analysis                                           │  │  │
+│  │  │  • Trend detection (increasing latency over 5 min)              │  │  │
+│  │  │  • Seasonality (expected traffic spike at noon)                 │  │  │
+│  │  │  • Anomaly scoring (Z-score, IQR, ML models)                    │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                        │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  Dependency Graph Traversal                                     │  │  │
+│  │  │  • Service A → Service B → Database                             │  │  │
+│  │  │  • Identify failure propagation paths                           │  │  │
+│  │  │  • Pinpoint origin of cascading failures                        │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                        │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  Change Impact Analysis                                         │  │  │
+│  │  │  • Recent deployments (last 2 hours)                            │  │  │
+│  │  │  • Config changes (feature flags, env vars)                     │  │  │
+│  │  │  • Infrastructure changes (scaling, migrations)                 │  │  │
+│  │  │  • Correlation with anomaly onset                               │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 3: HYPOTHESIS GENERATION                                              │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Root Cause Hypothesis Engine                                         │  │
+│  │                                                                        │  │
+│  │  Generated Hypotheses (ranked by probability):                        │  │
+│  │                                                                        │  │
+│  │  1. ⭐ Deployment v2.3.1 introduced slow DB query (P=0.89)           │  │
+│  │     Evidence:                                                         │  │
+│  │     • Deployment timestamp: 14:30 (2 min before anomaly)             │  │
+│  │     • Code diff shows new query in PaymentProcessor                  │  │
+│  │     • DB query time: 750ms avg (baseline: 5ms)                       │  │
+│  │     • Logs show 15K "SlowQueryWarning" messages                      │  │
+│  │                                                                        │  │
+│  │  2. Database connection pool exhaustion (P=0.45)                     │  │
+│  │     Evidence:                                                         │  │
+│  │     • Active connections: 48/50 (near limit)                         │  │
+│  │     • Connection wait time: elevated                                 │  │
+│  │     Contradicts: Pool was fine in v2.3.0 under same load             │  │
+│  │                                                                        │  │
+│  │  3. External API dependency failure (P=0.12)                         │  │
+│  │     Evidence:                                                         │  │
+│  │     • Payment gateway latency slightly elevated                      │  │
+│  │     Contradicts: Only affects 10% of requests using that gateway     │  │
+│  │                                                                        │  │
+│  │  Selected Hypothesis: #1 (highest probability + strongest evidence)  │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 4: ACTION PLANNING                                                    │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Remediation Strategy Generation                                      │  │
+│  │                                                                        │  │
+│  │  Goal: Restore service health (error rate < 0.1%, latency < 200ms)   │  │
+│  │                                                                        │  │
+│  │  Option 1: Rollback to v2.3.0                                         │  │
+│  │    Pros: Fast (2 min), proven stable, high success rate (98%)        │  │
+│  │    Cons: Loses new features temporarily                               │  │
+│  │    Risk: Low                                                          │  │
+│  │    Estimated MTTR: 5-7 minutes                                        │  │
+│  │    ✅ RECOMMENDED (confidence: 0.94)                                  │  │
+│  │                                                                        │  │
+│  │  Option 2: Scale database read replicas                               │  │
+│  │    Pros: Addresses symptom                                            │  │
+│  │    Cons: Slow (10 min), doesn't fix root cause, costs $$$            │  │
+│  │    Risk: Medium                                                       │  │
+│  │    Estimated MTTR: 15-20 minutes                                      │  │
+│  │    ❌ NOT RECOMMENDED                                                 │  │
+│  │                                                                        │  │
+│  │  Option 3: Add database index (hot fix)                               │  │
+│  │    Pros: Fixes root cause permanently                                 │  │
+│  │    Cons: Risky in prod (30 min), index build may lock table          │  │
+│  │    Risk: High                                                         │  │
+│  │    Estimated MTTR: 35-45 minutes                                      │  │
+│  │    ❌ NOT RECOMMENDED (propose as follow-up in dev)                  │  │
+│  │                                                                        │  │
+│  │  Selected Action: Rollback to v2.3.0 via Argo CD                     │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 5: POLICY VALIDATION                                                  │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Policy-as-Code Evaluation                                            │  │
+│  │                                                                        │  │
+│  │  Policy: auto-rollback-on-critical-incident                           │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  Conditions:                                                    │  │  │
+│  │  │    ✅ error_rate > 5%         (current: 8.5%)                   │  │  │
+│  │  │    ✅ duration > 3 minutes    (current: 5 minutes)              │  │  │
+│  │  │    ✅ environment == prod     (current: production)             │  │  │
+│  │  │    ✅ confidence > 0.85       (current: 0.94)                   │  │  │
+│  │  │                                                                  │  │  │
+│  │  │  Actions Allowed:                                               │  │  │
+│  │  │    ✅ Rollback deployment     (requested action)                │  │  │
+│  │  │    ✅ Create incident ticket  (included)                        │  │  │
+│  │  │    ✅ Notify on-call team     (included)                        │  │  │
+│  │  │                                                                  │  │  │
+│  │  │  Approval Required: NO (confidence above threshold)             │  │  │
+│  │  │  Audit Trail: ENABLED                                           │  │  │
+│  │  │  Blast Radius: Single service (payment-service)                 │  │  │
+│  │  │                                                                  │  │  │
+│  │  │  DECISION: ✅ AUTO-APPROVED                                      │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 6: EXECUTION & MONITORING                                             │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Action Execution with Real-Time Monitoring                           │  │
+│  │                                                                        │  │
+│  │  14:37:20 - Create PagerDuty incident #INC-45821                      │  │
+│  │             ✅ Success                                                 │  │
+│  │                                                                        │  │
+│  │  14:37:25 - Execute rollback: argocd app rollback payment-service    │  │
+│  │             ⏳ In progress...                                          │  │
+│  │             ├─ Scaling down canary pods (10/10 terminated)            │  │
+│  │             ├─ Deploying v2.3.0 (10/10 pods starting)                 │  │
+│  │             ├─ Health checks (8/10 ready... 10/10 ready ✅)           │  │
+│  │             └─ Traffic routing updated                                │  │
+│  │                                                                        │  │
+│  │  14:38:45 - Monitor recovery metrics:                                 │  │
+│  │             Latency p95:  2500ms → 850ms → 180ms → 155ms ✅          │  │
+│  │             Error rate:   8.5% → 4.2% → 0.8% → 0.1% ✅               │  │
+│  │             CPU usage:    85% → 72% → 48% → 45% ✅                   │  │
+│  │                                                                        │  │
+│  │  14:39:00 - All metrics within baseline thresholds                    │  │
+│  │             OUTCOME: ✅ SUCCESS                                        │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  STEP 7: LEARNING & FEEDBACK                                                │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Continuous Improvement Loop                                          │  │
+│  │                                                                        │  │
+│  │  Outcome Analysis:                                                    │  │
+│  │    • Action: Rollback to v2.3.0                                       │  │
+│  │    • Result: Success (service restored)                               │  │
+│  │    • MTTR: 7 minutes (target: <15 min) ✅                            │  │
+│  │    • Root cause confirmed: Unindexed DB query                         │  │
+│  │    • Confidence accuracy: 0.94 (predicted) vs. 1.0 (actual) ✅       │  │
+│  │                                                                        │  │
+│  │  Model Updates:                                                       │  │
+│  │    ✓ Anomaly detection: New pattern added (slow query signature)     │  │
+│  │    ✓ RCA engine: Confidence improved for DB-related issues           │  │
+│  │    ✓ Risk scoring: Deployment risk model retrained                   │  │
+│  │                                                                        │  │
+│  │  Knowledge Base Updates:                                              │  │
+│  │    ✓ Runbook: Added "Slow DB Query Detection" procedure              │  │
+│  │    ✓ Postmortem: Generated and published (INC-45821)                 │  │
+│  │    ✓ Prevention: Flag new DB queries in CI/CD for review             │  │
+│  │                                                                        │  │
+│  │  Audit Trail:                                                         │  │
+│  │    ✓ All decision steps logged with timestamps                       │  │
+│  │    ✓ Evidence artifacts preserved (logs, metrics, diffs)             │  │
+│  │    ✓ Compliance mapping updated (SOC 2 incident response control)    │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+OUTPUT: Action executed, service restored, knowledge captured
+        Next similar incident will be detected faster and resolved with higher confidence
+```
+
+#### **Key Reasoning Capabilities**
+
+**1. Multi-Modal Data Fusion**
+- Combines structured (metrics), semi-structured (logs), and unstructured (text) data
+- Temporal correlation across data sources
+- Context-aware interpretation (deployment windows, maintenance periods)
+
+**2. Probabilistic Reasoning**
+- Multiple hypotheses generated and ranked by probability
+- Evidence weighting (strong vs. weak indicators)
+- Confidence scoring for all decisions
+
+**3. Causal Inference**
+- Distinguishes correlation from causation
+- Identifies confounding factors
+- Validates hypotheses against contradicting evidence
+
+**4. Risk-Aware Planning**
+- Evaluates multiple remediation strategies
+- Considers trade-offs (speed vs. safety vs. cost)
+- Selects actions matching risk tolerance
+
+**5. Explainable AI**
+- Every decision includes reasoning trace
+- Evidence cited and weighted
+- Alternative options documented with rationale for rejection
+
+**6. Adaptive Learning**
+- Models improve from every outcome (success or failure)
+- Human feedback integrated as training signal
+- Knowledge base continuously enriched
+
+---
 
 **Reasoning Engine**
 - Large Language Models (LLMs) for intent understanding and plan generation
@@ -338,21 +1081,449 @@ Ensures safe, compliant agent operation:
 
 ### 5.3 Data Flow Example: Incident Detection and Response
 
-1. **Signal Collection**: Observability tools emit metrics, logs, traces to event broker
-2. **Anomaly Detection**: Observability Agent consumes events, detects latency spike
-3. **Correlation**: Agent queries logs, traces, recent deployments; identifies causal deployment
-4. **Root Cause Analysis**: Agent analyzes deployment diff, identifies configuration change
-5. **Runbook Selection**: Agent retrieves relevant runbook from memory (rollback procedure)
-6. **Risk Assessment**: Reasoning engine evaluates rollback risk; confidence score: 0.92
-7. **Policy Check**: Governance layer confirms rollback is within autonomous policy
-8. **Execution**: Agent triggers rollback via CI/CD API, monitors recovery
-9. **Notification**: Alert updated in PagerDuty; Slack notification with reasoning sent
-10. **Postmortem**: Agent generates incident summary, root cause, remediation, prevention
-11. **Learning**: Outcome (successful rollback, MTTR reduced) fed back to improve models
+#### **End-to-End Incident Response Flow**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        INCIDENT LIFECYCLE: DETECTION TO RESOLUTION              │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+PHASE 1: SIGNAL COLLECTION & CORRELATION
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Observability Tools                                                         │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐             │
+│  │Prometheus│    │   Logs   │    │  Traces  │    │ K8s Evts │             │
+│  │ Metrics  │───▶│  (ELK)   │───▶│ (Jaeger) │───▶│ Webhook  │             │
+│  └──────────┘    └──────────┘    └──────────┘    └──────────┘             │
+│       │               │                │               │                     │
+│       └───────────────┴────────────────┴───────────────┘                     │
+│                              │                                               │
+│                              ▼                                               │
+│                   ┌────────────────────────┐                                 │
+│                   │   Event Broker (Kafka) │                                 │
+│                   └────────────────────────┘                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 2: ANOMALY DETECTION
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Observability Agent - Anomaly Detection Engine                              │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Multi-Signal Correlation:                                         │     │
+│  │  • Latency: p95 = 2500ms (baseline: 150ms) ❌ +1567% spike         │     │
+│  │  • Error Rate: 8.5% (baseline: 0.1%) ❌ +8400% spike               │     │
+│  │  • CPU Usage: 85% (baseline: 45%) ⚠️ elevated                      │     │
+│  │  • Request Volume: 1200 req/s (baseline: 1000 req/s) ✓ normal     │     │
+│  │                                                                     │     │
+│  │  Time Correlation: Anomaly started at 14:32:15                     │     │
+│  │  Severity: CRITICAL (multi-metric degradation)                     │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 3: ROOT CAUSE ANALYSIS
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Observability Agent - RCA Engine                                            │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Change Correlation Analysis:                                      │     │
+│  │  ✓ Recent Deployment: payment-service v2.3.1 at 14:30:00          │     │
+│  │    (2 minutes before anomaly)                                      │     │
+│  │                                                                     │     │
+│  │  Code Diff Analysis:                                               │     │
+│  │  + New database query in PaymentProcessor.processTransaction()    │     │
+│  │  + Query lacks index on `user_id` column (N+1 pattern detected)   │     │
+│  │                                                                     │     │
+│  │  Log Analysis (past 5 minutes):                                    │     │
+│  │  • 15,000 instances of "SlowQueryWarning: query took 800ms+"      │     │
+│  │  • Stack trace points to PaymentProcessor.java:142                │     │
+│  │                                                                     │     │
+│  │  Trace Analysis:                                                   │     │
+│  │  • Average DB query time: 750ms (baseline: 5ms)                   │     │
+│  │  • 95% of request latency in database call                        │     │
+│  │                                                                     │     │
+│  │  ROOT CAUSE HYPOTHESIS (Confidence: 0.94):                         │     │
+│  │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   │     │
+│  │  Deployment v2.3.1 introduced unindexed database query causing     │     │
+│  │  database overload and downstream latency/error spike.             │     │
+│  │  Recommended Action: ROLLBACK to v2.3.0                            │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 4: POLICY & RISK EVALUATION
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Governance & Policy Layer                                                   │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Policy Evaluation:                                                │     │
+│  │  Policy ID: auto-rollback-on-critical-incident                     │     │
+│  │  ✓ Trigger: error_rate > 5% (current: 8.5%)                        │     │
+│  │  ✓ Duration: > 3 minutes (current: 5 minutes)                      │     │
+│  │  ✓ Environment: production                                         │     │
+│  │  ✓ Confidence Threshold: > 0.85 (current: 0.94)                    │     │
+│  │                                                                     │     │
+│  │  Approval Requirement: NONE (auto-approved for high-confidence)    │     │
+│  │  Action Authorized: ROLLBACK deployment                            │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 5: AUTOMATED REMEDIATION
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Observability Agent - Remediation Orchestrator                              │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Runbook Selected: production-rollback-v1.2                        │     │
+│  │                                                                     │     │
+│  │  Step 1: Create incident ticket                                    │     │
+│  │  ✓ PagerDuty incident #INC-45821 created (14:37:20)                │     │
+│  │  ✓ On-call team notified                                           │     │
+│  │                                                                     │     │
+│  │  Step 2: Execute rollback via Argo CD                              │     │
+│  │  ✓ API Call: argocd.rollback(app="payment-service", revision="v2.3.0") │
+│  │  ✓ Rollback initiated (14:37:25)                                   │     │
+│  │  ✓ Health checks: 10/10 pods ready (14:38:45)                      │     │
+│  │                                                                     │     │
+│  │  Step 3: Monitor recovery                                          │     │
+│  │  ✓ Latency p95: 2500ms → 180ms → 155ms (14:39:00) ✅              │     │
+│  │  ✓ Error rate: 8.5% → 2.1% → 0.1% (14:39:15) ✅                   │     │
+│  │  ✓ All metrics within baseline thresholds                          │     │
+│  │                                                                     │     │
+│  │  REMEDIATION STATUS: SUCCESS                                       │     │
+│  │  Total Resolution Time: 7 minutes (MTTR target: < 15 min)          │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 6: NOTIFICATION & COMMUNICATION
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Collaboration Agent                                                         │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Slack Notification (#incidents channel):                          │     │
+│  │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │     │
+│  │  🚨 INCIDENT AUTO-RESOLVED: payment-service                        │     │
+│  │                                                                     │     │
+│  │  Incident ID: INC-45821                                            │     │
+│  │  Severity: CRITICAL                                                │     │
+│  │  Duration: 7 minutes (14:32 - 14:39)                               │     │
+│  │                                                                     │     │
+│  │  Root Cause: Unindexed DB query in v2.3.1 deployment               │     │
+│  │  Action Taken: Automatic rollback to v2.3.0                        │     │
+│  │  Confidence: 94%                                                   │     │
+│  │                                                                     │     │
+│  │  Impact: ~5,000 failed requests during incident window             │     │
+│  │                                                                     │     │
+│  │  Next Steps:                                                       │     │
+│  │  • Review postmortem: [link]                                       │     │
+│  │  • Fix DB query and add index before next deployment               │     │
+│  │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │     │
+│  │                                                                     │     │
+│  │  PagerDuty Update: Incident #INC-45821 → RESOLVED                  │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 7: POSTMORTEM & LEARNING
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Observability Agent - Postmortem Generator                                  │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  AUTO-GENERATED POSTMORTEM                                         │     │
+│  │                                                                     │     │
+│  │  Incident Summary:                                                 │     │
+│  │  • Service: payment-service                                        │     │
+│  │  • Impact: 8.5% error rate, 2.5s latency spike                     │     │
+│  │  • Duration: 7 minutes                                             │     │
+│  │  • MTTR: 7 minutes (target: 15 minutes) ✅                         │     │
+│  │                                                                     │     │
+│  │  Timeline:                                                         │     │
+│  │  14:30:00 - Deployment v2.3.1 started                              │     │
+│  │  14:32:15 - Anomaly detected (latency + error spike)               │     │
+│  │  14:35:10 - Root cause identified (unindexed query)                │     │
+│  │  14:37:25 - Rollback initiated                                     │     │
+│  │  14:39:00 - Service recovered                                      │     │
+│  │                                                                     │     │
+│  │  Root Cause:                                                       │     │
+│  │  New query in PaymentProcessor lacks index on user_id,            │     │
+│  │  causing full table scans and DB overload under production load.  │     │
+│  │                                                                     │     │
+│  │  Prevention Measures:                                              │     │
+│  │  1. Add database index on transactions.user_id column              │     │
+│  │  2. Update pre-deployment checks to include query analysis         │     │
+│  │  3. Add synthetic load test simulating production traffic          │     │
+│  │                                                                     │     │
+│  │  Knowledge Base Updates:                                           │     │
+│  │  ✓ Runbook updated with new detection pattern                      │     │
+│  │  ✓ Architecture doc updated with indexing requirements             │     │
+│  │  ✓ Anomaly model trained on this incident signature                │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+PHASE 8: CONTINUOUS IMPROVEMENT
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Agentic Orchestration Layer - Learning & Feedback                           │
+│  ┌────────────────────────────────────────────────────────────────────┐     │
+│  │  Model Updates:                                                    │     │
+│  │  ✓ Anomaly detection model retrained with new incident data        │     │
+│  │  ✓ RCA confidence improved for "unindexed query" pattern           │     │
+│  │  ✓ Rollback success rate: 98% (updated from 96%)                   │     │
+│  │                                                                     │     │
+│  │  Policy Adjustments:                                               │     │
+│  │  ✓ CI/CD Agent updated: Flag deployments with new DB queries       │     │
+│  │  ✓ Infrastructure Agent: Monitor DB query performance              │     │
+│  │                                                                     │     │
+│  │  Metrics Logged:                                                   │     │
+│  │  • Incident count: +1 (total: 423 lifetime)                        │     │
+│  │  • Auto-resolution rate: 76% (target: 75%) ✅                      │     │
+│  │  • Average MTTR: 8.2 minutes (trend: improving)                    │     │
+│  └────────────────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+OUTCOME: Incident detected, root cause identified, remediated, and learned from
+         in 7 minutes with zero human intervention and complete audit trail.
+```
+
+#### **Key Workflow Characteristics**
+
+1. **Autonomous Decision-Making**: Agent detected anomaly, identified root cause, evaluated policy, and executed rollback without human approval (confidence: 0.94, policy threshold: 0.85)
+
+2. **Multi-Source Intelligence**: Correlated metrics, logs, traces, deployment events, and code changes to build complete incident picture
+
+3. **Transparent Reasoning**: Every decision includes confidence score, supporting data, and alternative hypotheses considered
+
+4. **Policy Compliance**: All actions validated against policy-as-code before execution; audit trail captured for compliance
+
+5. **Human Collaboration**: Team notified in real-time with context; postmortem provided for review and additional actions
+
+6. **Continuous Learning**: Incident outcome fed back to models; runbooks and policies updated; future incidents of this type will be detected faster
+
+7. **End-to-End Automation**: From signal ingestion to postmortem generation, entire lifecycle automated while maintaining human oversight capability
+
+---
 
 ---
 
 ## 6. Core Capabilities Across the DevOps Lifecycle
+
+### 6.0 Multi-Agent Collaboration Architecture
+
+Before diving into individual agent capabilities, it's important to understand how agents collaborate to achieve complex objectives that span multiple domains.
+
+#### **Multi-Agent Collaboration Diagram**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                   MULTI-AGENT COLLABORATION SCENARIO                        │
+│              Secure Deployment with Cost Optimization & Monitoring          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Developer Commits Code (payment-service v2.4.0)
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  CI/CD AGENT                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  1. Code Change Analysis                                            │  │
+│  │     • Files changed: 15 (core payment logic modified)               │  │
+│  │     • Risk score: 0.68 (MEDIUM-HIGH)                                │  │
+│  │                                                                      │  │
+│  │  2. Request Security Scan ──────────────────────┐                   │  │
+│  └─────────────────────────────────────────────────┼───────────────────┘  │
+└─────────────────────────────────────────────────────┼──────────────────────┘
+                                                      │
+                                                      ▼
+                                ┌────────────────────────────────────────────┐
+                                │  SECURITY AGENT                            │
+                                │  ┌──────────────────────────────────────┐  │
+                                │  │  3. Comprehensive Security Scan      │  │
+                                │  │     • SAST: ✅ No critical issues    │  │
+                                │  │     • Dependency scan: ⚠️ 1 medium   │  │
+                                │  │       CVE-2024-1234 (CVSS 5.2)       │  │
+                                │  │     • Container scan: ✅ Pass         │  │
+                                │  │                                       │  │
+                                │  │  4. Auto-remediate medium CVE        │  │
+                                │  │     • Upgrade lib v1.2 → v1.2.1      │  │
+                                │  │     • Validation: ✅ Fixed            │  │
+                                │  │                                       │  │
+                                │  │  5. Approve deployment ──────────┐   │  │
+                                │  └──────────────────────────────────┼───┘  │
+                                └──────────────────────────────────────┼──────┘
+                                                                       │
+        ┌──────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  CI/CD AGENT (continued)                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  6. Initiate Progressive Deployment                                 │  │
+│  │     • Strategy: Canary (5% → 25% → 100%)                            │  │
+│  │     • Monitoring window: 10 minutes per stage                       │  │
+│  │                                                                      │  │
+│  │  7. Request resource projection ─────────────┐                      │  │
+│  └─────────────────────────────────────────────┼────────────────────────┘  │
+└─────────────────────────────────────────────────┼───────────────────────────┘
+                                                  │
+                                                  ▼
+                        ┌────────────────────────────────────────────────────┐
+                        │  INFRASTRUCTURE AGENT                              │
+                        │  ┌──────────────────────────────────────────────┐  │
+                        │  │  8. Capacity & Cost Analysis                 │  │
+                        │  │     • Current: 20 pods @ 2 CPU each          │  │
+                        │  │     • Projected load: +15% (Black Friday)    │  │
+                        │  │     • Recommendation: Pre-scale to 25 pods   │  │
+                        │  │     • Cost impact: +$120/day (temporary)     │  │
+                        │  │                                               │  │
+                        │  │  9. Coordinate with FinOps Agent ──────┐     │  │
+                        │  └────────────────────────────────────────┼─────┘  │
+                        └────────────────────────────────────────────┼────────┘
+                                                                     │
+                ┌────────────────────────────────────────────────────┘
+                │
+                ▼
+        ┌──────────────────────────────────────────────────┐
+        │  FINOPS AGENT                                    │
+        │  ┌────────────────────────────────────────────┐  │
+        │  │  10. Budget Validation                     │  │
+        │  │      • Monthly budget: $50,000             │  │
+        │  │      • Current burn: $32,000 (64%)         │  │
+        │  │      • Projected: $35,600 (71%) ✅         │  │
+        │  │      • Status: APPROVED (within budget)    │  │
+        │  │                                             │  │
+        │  │  11. Tag resources for attribution         │  │
+        │  │      • Project: payment-service            │  │
+        │  │      • Team: payments                      │  │
+        │  │      • Environment: production             │  │
+        │  │      • Event: black-friday-2025            │  │
+        │  └────────────────────────────────────────────┘  │
+        └──────────────────────────────────────────────────┘
+                │
+                │ (All approvals obtained)
+                ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  INFRASTRUCTURE AGENT (continued)                                         │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  12. Execute Pre-Scaling                                            │  │
+│  │      • Scale deployment: 20 → 25 pods                               │  │
+│  │      • Update HPA: min=25, max=40                                   │  │
+│  │      • Status: ✅ All pods ready                                     │  │
+│  │                                                                      │  │
+│  │  13. Notify CI/CD Agent ────────────────────┐                       │  │
+│  └─────────────────────────────────────────────┼───────────────────────┘  │
+└─────────────────────────────────────────────────┼──────────────────────────┘
+                                                  │
+        ┌─────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  CI/CD AGENT (continued)                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  14. Deploy Canary (5% traffic)                                     │  │
+│  │      • Deployment: payment-service-v2.4.0-canary                    │  │
+│  │      • Traffic split: 95% stable / 5% canary                        │  │
+│  │      • Request Observability monitoring ────────┐                   │  │
+│  └─────────────────────────────────────────────────┼─────────────────────┘│
+└─────────────────────────────────────────────────────┼────────────────────────┘
+                                                      │
+                                                      ▼
+                                ┌────────────────────────────────────────────┐
+                                │  OBSERVABILITY AGENT                       │
+                                │  ┌──────────────────────────────────────┐  │
+                                │  │  15. Monitor Canary Metrics          │  │
+                                │  │      (10 minute window)              │  │
+                                │  │      • Error rate: 0.08% (✅ <0.1%)  │  │
+                                │  │      • Latency p95: 145ms (✅ <200ms)│  │
+                                │  │      • CPU usage: 62% (✅ normal)    │  │
+                                │  │      • No anomalies detected         │  │
+                                │  │                                       │  │
+                                │  │  16. Recommendation: PROMOTE ──────┐ │  │
+                                │  │      Confidence: 0.91               │ │  │
+                                │  └──────────────────────────────────────┼─┘  │
+                                └──────────────────────────────────────────┼────┘
+                                                                           │
+        ┌──────────────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  CI/CD AGENT (continued)                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  17. Promote to 25% traffic                                         │  │
+│  │      • Traffic split: 75% stable / 25% canary                       │  │
+│  │      • Monitor for 10 minutes...                                    │  │
+│  │      • Observability: ✅ All metrics healthy                         │  │
+│  │                                                                      │  │
+│  │  18. Promote to 100% traffic                                        │  │
+│  │      • Traffic split: 0% stable / 100% canary                       │  │
+│  │      • Remove old version                                           │  │
+│  │      • Deployment: ✅ SUCCESS                                        │  │
+│  │                                                                      │  │
+│  │  19. Trigger post-deployment actions ────────┐                      │  │
+│  └─────────────────────────────────────────────┼────────────────────────┘  │
+└─────────────────────────────────────────────────┼───────────────────────────┘
+                                                  │
+                ┌─────────────────────────────────┴───────────────────┐
+                │                                                     │
+                ▼                                                     ▼
+    ┌────────────────────────────┐              ┌────────────────────────────┐
+    │  OBSERVABILITY AGENT       │              │  COLLABORATION AGENT       │
+    │  ┌──────────────────────┐  │              │  ┌──────────────────────┐  │
+    │  │  20. Create Baseline │  │              │  │  22. Update Docs     │  │
+    │  │      • New metrics   │  │              │  │      • Deployment    │  │
+    │  │        thresholds    │  │              │  │        guide updated │  │
+    │  │      • Anomaly       │  │              │  │      • Runbook v2.4  │  │
+    │  │        models updated│  │              │  │        published     │  │
+    │  └──────────────────────┘  │              │  │                      │  │
+    └────────────────────────────┘              │  │  23. Notify Team     │  │
+                │                               │  │      📢 Slack:       │  │
+                │                               │  │      "payment-service│  │
+                ▼                               │  │      v2.4.0 deployed │  │
+    ┌────────────────────────────┐              │  │      successfully"   │  │
+    │  FINOPS AGENT              │              │  └──────────────────────┘  │
+    │  ┌──────────────────────┐  │              └────────────────────────────┘
+    │  │  21. Track Costs     │  │
+    │  │      • Log deployment│  │
+    │  │        cost impact   │  │              ┌────────────────────────────┐
+    │  │      • Monitor daily │  │              │  AUDIT TRAIL               │
+    │  │        spend trend   │  │              │  ┌──────────────────────┐  │
+    │  └──────────────────────┘  │              │  │  24. Compliance Log  │  │
+    └────────────────────────────┘              │  │      • All agent     │  │
+                                                │  │        decisions     │  │
+                                                │  │      • Approvals     │  │
+                                                │  │      • Actions taken │  │
+                                                │  │      • Timestamps    │  │
+                                                │  │      • Evidence      │  │
+                                                │  └──────────────────────┘  │
+                                                └────────────────────────────┘
+
+OUTCOME: Secure, cost-optimized deployment with zero human intervention,
+         complete monitoring, and full audit trail.
+
+AGENTS INVOLVED: 6 (CI/CD, Security, Infrastructure, FinOps, Observability, Collaboration)
+TOTAL TIME: 35 minutes (manual process would take 4+ hours)
+HUMAN APPROVALS: 0 (all within policy guardrails)
+AUDIT EVENTS: 24 (complete traceability)
+```
+
+#### **Agent Coordination Patterns**
+
+**1. Sequential Coordination**
+- Agent A completes task → notifies Agent B → Agent B proceeds
+- Example: Security scan → CI/CD deployment
+
+**2. Parallel Coordination**
+- Multiple agents work simultaneously on independent subtasks
+- Example: Infrastructure scaling + FinOps budget check
+
+**3. Hierarchical Coordination**
+- Supervisor agent delegates to specialist agents
+- Example: Deployment orchestrator coordinates Security, Infrastructure, Observability
+
+**4. Collaborative Decision-Making**
+- Multiple agents contribute data; reasoning engine synthesizes decision
+- Example: Go/no-go deployment decision considering security, cost, capacity
+
+**5. Feedback Loops**
+- Agents share outcomes to improve collective intelligence
+- Example: Deployment success/failure informs future risk scoring
+
+---
 
 ### 6.1 Observability and Incident Management
 
