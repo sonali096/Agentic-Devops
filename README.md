@@ -2,6 +2,8 @@
 
 **A White Paper on Autonomous, Policy-Aware AI Agents in DevOps**
 
+*December 2025*
+
 ---
 
 ## Table of Contents
@@ -226,20 +228,29 @@ The Agentic DevOps architecture comprises five layers designed for modularity, s
                                         ↕
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
 │                          DOMAIN-SPECIFIC AGENTS                                     │
-│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────┐ │
-│  │Observability │ │   CI/CD      │ │Infrastructure│ │  Security    │ │  FinOps  │ │
-│  │   Agent      │ │   Agent      │ │    Agent     │ │   Agent      │ │  Agent   │ │
-│  │──────────────│ │──────────────│ │──────────────│ │──────────────│ │──────────│ │
-│  │• Anomaly Det │ │• Test Intel  │ │• Right-Size  │ │• Vuln Scan   │ │• Cost    │ │
-│  │• RCA         │ │• Risk Score  │ │• Autoscaling │ │• Policy Enf  │ │  Optimiz │ │
-│  │• Auto-Remedy │ │• Progressive │ │• Capacity    │ │• Auto-Patch  │ │• Orphan  │ │
-│  │• Postmortems │ │  Delivery    │ │  Planning    │ │• Compliance  │ │  Cleanup │ │
-│  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ └──────────┘ │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐     │
+│  │   DR     │ │  Alert   │ │Inventory │ │  Infra   │ │Monitoring│ │  CI/CD   │     │
+│  │  Agent   │ │  Agent   │ │  Agent   │ │ Support  │ │  Agent   │ │  Agent   │     │
+│  │──────────│ │──────────│ │──────────│ │  Agent   │ │──────────│ │──────────│     │
+│  │• DR Plan │ │• Alert   │ │• Asset   │ │──────────│ │• WCNP/   │ │• Pipeline│     │
+│  │• Testing │ │  Correl. │ │  Disc.   │ │• SPN Rot │ │  OneOps  │ │  Gates   │     │
+│  │• Failover│ │• Dedup   │ │• Depend. │ │• Pwd Mgmt│ │  Monitor │ │• Build   │     │
+│  │• RTO/RPO │ │• Routing │ │• Drift   │ │• DB      │ │• Metrics │ │  Track   │     │
+│  │          │ │• Context │ │  Detect  │ │  Decom   │ │• Logs    │ │• E2E Test│     │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘     │
 │                                                                                     │
-│  ┌──────────────────────────────────────────────────────────────────────────────┐  │
-│  │                    Collaboration & Knowledge Agent                           │  │
-│  │  • ChatOps  • RAG over Docs  • Auto-Documentation  • Cross-Team Learning    │  │
-│  └──────────────────────────────────────────────────────────────────────────────┘  │
+│  ┌──────────┐ ┌──────────────────────────────────────┐ ┌───────────────────────┐  │
+│  │   Cert   │ │      GitHub Access Agent             │ │  Integration Layer    │  │
+│  │   Mgmt   │ │  • Access Requests & Approvals       │ │  • Incident Mgmt      │  │
+│  │  Agent   │ │  • User Provisioning                 │ │  • Multi-Agent        │  │
+│  │──────────│ │  • Access Reviews                    │ │    Orchestration      │  │
+│  │• Cert    │ │  • Offboarding                       │ │  • Context Building   │  │
+│  │  Disc.   │ │  • 2FA Enforcement                   │ │  • Routing Logic      │  │
+│  │• Expiry  │ │  • Branch Protection                 │ │  • Audit Trail        │  │
+│  │  Monitor │ │                                       │ │                       │  │
+│  │• Auto    │ │                                       │ │                       │  │
+│  │  Renewal │ │                                       │ │                       │  │
+│  └──────────┘ └──────────────────────────────────────┘ └───────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────────────┘
                                         ↕
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
@@ -301,9 +312,1065 @@ Provides normalized access to ecosystem tools:
 
 #### 5.2.3 Domain-Specific Agents
 
-Specialized agents for specific DevOps domains:
+#### 5.2.3 Domain-Specific Agents
 
-##### **Observability Agent**
+The following specialized agents are designed for US Omni systems (WCNP/OneOps environments):
+
+##### **1. Disaster Recovery (DR) Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Disaster Recovery Agent                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           DR Planning & Strategy Module                  │  │
+│  │  • Recovery Time Objective (RTO) Analysis                │  │
+│  │  • Recovery Point Objective (RPO) Monitoring             │  │
+│  │  • Business Impact Assessment                            │  │
+│  │  • Critical System Dependency Mapping                    │  │
+│  │  • Failover Strategy Definition                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Automated Testing Engine                    │  │
+│  │  • Scheduled DR Drills (monthly/quarterly)               │  │
+│  │  • Failover Validation Testing                           │  │
+│  │  • Data Replication Verification                         │  │
+│  │  • Service Continuity Testing                            │  │
+│  │  • Compliance Testing (SOX, regulatory)                  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         DR Execution & Orchestration Module              │  │
+│  │  • Automated Failover Triggering                         │  │
+│  │  • Multi-Region Coordination (WCNP/OneOps)               │  │
+│  │  • Database Failover Orchestration                       │  │
+│  │  • Traffic Routing & DNS Switchover                      │  │
+│  │  • Service Health Validation Post-Failover               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Monitoring & Reporting Module                 │  │
+│  │  • RTO/RPO Compliance Tracking                           │  │
+│  │  • DR Test Results & Gap Analysis                        │  │
+│  │  • Runbook Maintenance & Updates                         │  │
+│  │  • Executive Dashboards & Metrics                        │  │
+│  │  • Audit Trail for Compliance                            │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Automated DR Planning**: Continuously analyzes system dependencies and generates optimized disaster recovery plans
+- **Scheduled Testing**: Executes non-disruptive DR drills on defined schedules without impacting production
+- **Real-Time Failover**: Detects catastrophic failures and initiates automated failover within RTO targets
+- **Multi-Region Orchestration**: Coordinates DR activities across WCNP and OneOps regions
+- **Compliance Reporting**: Generates audit-ready reports for regulatory requirements
+
+**Example Workflow:**
+1. Detects primary datacenter outage or critical service degradation
+2. Validates DR trigger conditions (multi-metric correlation)
+3. Initiates automated failover sequence:
+   - Promotes standby database to primary
+   - Updates DNS records to route traffic to DR site
+   - Activates backup services in secondary region
+   - Validates service health and data consistency
+4. Monitors recovery progress and RTO compliance
+5. Generates incident report with timeline and actions taken
+6. Updates DR runbooks based on actual failover experience
+
+**Integration Points:**
+- WCNP/OneOps deployment platforms
+- Database replication systems (Oracle Data Guard, SQL Server AlwaysOn)
+- DNS management (Route53, Azure DNS)
+- Load balancers and traffic managers
+- Monitoring systems (Prometheus, Datadog, Splunk)
+
+---
+
+##### **2. Alert Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                          Alert Agent                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Multi-Source Alert Ingestion                  │  │
+│  │  • WCNP Platform Alerts                                  │  │
+│  │  • OneOps Deployment Alerts                              │  │
+│  │  • Infrastructure Monitoring (Prometheus, Datadog)       │  │
+│  │  • Application Performance Monitoring (APM)              │  │
+│  │  • Security Alerts (SIEM, vulnerability scanners)        │  │
+│  │  • Database Alerts (performance, replication)            │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │        Alert Correlation & Deduplication Engine          │  │
+│  │  • Temporal Correlation (related alerts within window)   │  │
+│  │  • Spatial Correlation (same service/component)          │  │
+│  │  • Causal Relationship Detection                         │  │
+│  │  • Duplicate Alert Suppression                           │  │
+│  │  • Alert Clustering (group related incidents)            │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Intelligent Prioritization Engine               │  │
+│  │  • Business Impact Scoring                               │  │
+│  │    - Revenue impact (payment systems = P0)               │  │
+│  │    - Customer impact (user-facing services)              │  │
+│  │    - Compliance impact (regulatory systems)              │  │
+│  │  • Severity Classification (P0/P1/P2/P3)                 │  │
+│  │  • Time-of-Day Weighting (peak hours vs. off-hours)      │  │
+│  │  • Historical Pattern Analysis                           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Context Enrichment Module                     │  │
+│  │  • Recent Deployment Information                         │  │
+│  │  • Service Dependency Graph                              │  │
+│  │  • On-Call Team & Escalation Paths                       │  │
+│  │  • Related Runbooks & Documentation                      │  │
+│  │  • Historical Incident Data                              │  │
+│  │  • Suggested Remediation Actions                         │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Intelligent Routing Engine                  │  │
+│  │  • Team Assignment (based on service ownership)          │  │
+│  │  • Channel Routing (Slack, PagerDuty, ServiceNow)        │  │
+│  │  • Escalation Management (SLA-based)                     │  │
+│  │  • Auto-Assignment to Specialists                        │  │
+│  │  • Load Balancing (distribute alerts across on-call)     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Alert Noise Reduction**: Reduces alert volume by 70%+ through intelligent correlation and deduplication
+- **Context-Rich Notifications**: Every alert includes deployment history, dependencies, and suggested actions
+- **Smart Routing**: Automatically routes alerts to correct team based on service ownership and expertise
+- **Business-Aware Prioritization**: Prioritizes alerts based on business impact, not just technical severity
+- **Actionable Intelligence**: Provides runbooks, logs, and metrics relevant to each alert
+
+**Example Workflow:**
+1. Receives 50+ alerts from various monitoring systems within 2-minute window
+2. Correlates alerts: All related to payment-service degradation
+3. Deduplicates: Groups into single incident "Payment Service High Latency"
+4. Prioritizes: P0 (revenue-critical service, peak business hours)
+5. Enriches with context:
+   - Recent deployment: payment-service v3.2.1 deployed 5 minutes ago
+   - Error pattern: Database connection timeout (95% of errors)
+   - Suggested action: Rollback to v3.2.0
+   - Runbook: [Link to payment service troubleshooting guide]
+6. Routes to: Payments team on-call engineer via PagerDuty + Slack #payments-oncall
+7. Creates ServiceNow incident with all context pre-populated
+
+**Integration Points:**
+- Monitoring systems (Prometheus, Grafana, Datadog, Splunk)
+- ITSM (ServiceNow, Jira)
+- Incident management (PagerDuty, Opsgenie)
+- Collaboration (Slack, Microsoft Teams)
+- WCNP/OneOps deployment APIs
+
+---
+
+##### **3. Inventory Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       Inventory Agent                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Multi-Source Discovery & Collection              │  │
+│  │  • WCNP Platform Inventory (services, instances)         │  │
+│  │  • OneOps Application Catalog                            │  │
+│  │  • Cloud Resources (AWS, Azure, GCP)                     │  │
+│  │    - Compute (VMs, containers, serverless)               │  │
+│  │    - Storage (disks, buckets, databases)                 │  │
+│  │    - Network (VPCs, subnets, load balancers)             │  │
+│  │  • On-Premises Infrastructure                            │  │
+│  │  • Kubernetes Clusters & Workloads                       │  │
+│  │  • Database Instances & Replicas                         │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Asset Relationship & Dependency Mapping         │  │
+│  │  • Service-to-Infrastructure Mapping                     │  │
+│  │  • Application-to-Database Dependencies                  │  │
+│  │  • Network Topology Discovery                            │  │
+│  │  • Data Flow Mapping                                     │  │
+│  │  • Ownership & Team Attribution                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │        Configuration & State Management                  │  │
+│  │  • Desired State Tracking (IaC/GitOps)                   │  │
+│  │  • Actual State Monitoring (runtime inventory)           │  │
+│  │  • Drift Detection (desired vs. actual)                  │  │
+│  │  • Configuration History & Versioning                    │  │
+│  │  • Compliance Baseline Validation                        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Lifecycle & Change Tracking                   │  │
+│  │  • Resource Creation/Deletion Events                     │  │
+│  │  • Version Changes & Upgrades                            │  │
+│  │  • Scaling Events (horizontal/vertical)                  │  │
+│  │  • Migration Tracking                                    │  │
+│  │  • End-of-Life (EOL) Monitoring                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Reporting & Analytics Module                     │  │
+│  │  • Real-Time Inventory Dashboards                        │  │
+│  │  • Cost Attribution by Service/Team                      │  │
+│  │  • Capacity Utilization Reports                          │  │
+│  │  • Compliance Reports (tagging, security)                │  │
+│  │  • Change Impact Analysis                                │  │
+│  │  • API for Integration with Other Agents                 │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Unified View**: Single source of truth for all infrastructure and application assets across US Omni systems
+- **Automatic Discovery**: Continuously scans WCNP, OneOps, and cloud environments for new/changed resources
+- **Dependency Mapping**: Maintains comprehensive service dependency graph for impact analysis
+- **Drift Detection**: Identifies configuration drift between desired state (IaC) and actual state
+- **Compliance Tracking**: Ensures all resources meet tagging, security, and governance standards
+
+**Example Workflow:**
+1. Scheduled scan discovers new EC2 instances in production AWS account
+2. Queries WCNP/OneOps APIs to correlate with application deployments
+3. Identifies missing tags: No "CostCenter" or "Owner" tags
+4. Alerts Infra Support Agent to remediate tagging violation
+5. Maps dependencies: New instances → Payment Service → PostgreSQL RDS
+6. Updates service dependency graph
+7. Generates compliance report: 99.2% resources properly tagged (target: 100%)
+8. Provides inventory data to FinOps Agent for cost attribution
+
+**Integration Points:**
+- WCNP platform APIs
+- OneOps application APIs
+- Cloud providers (AWS, Azure, GCP APIs)
+- Kubernetes API servers
+- CMDB/ServiceNow
+- Git repositories (IaC definitions)
+
+---
+
+##### **4. Infrastructure Support Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  Infrastructure Support Agent                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Service Principal (SPN) Management Module        │  │
+│  │  • SPN Expiration Monitoring (30/60/90-day alerts)       │  │
+│  │  • Automated Rotation Workflow                           │  │
+│  │    - Generate new credentials                            │  │
+│  │    - Update application configurations                   │  │
+│  │    - Validate connectivity with new SPN                  │  │
+│  │    - Retire old credentials (grace period)               │  │
+│  │  • Azure AD/Entra ID Integration                         │  │
+│  │  • Secret Management (Azure Key Vault, HashiCorp Vault)  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Password & Credential Management Module          │  │
+│  │  • Database Password Rotation                            │  │
+│  │    - SQL Server, PostgreSQL, Oracle                      │  │
+│  │    - Coordinated rotation (primary + replicas)           │  │
+│  │  • Service Account Password Expiry Tracking              │  │
+│  │  • API Key Rotation                                      │  │
+│  │  • SSH Key Management                                    │  │
+│  │  • Compliance Enforcement (90-day rotation policy)       │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Database Decommission Orchestrator               │  │
+│  │  • Decommission Request Validation                       │  │
+│  │  • Dependency Check (ensure no active connections)       │  │
+│  │  • Backup Verification (final backup taken & validated)  │  │
+│  │  • Data Retention Compliance (GDPR, SOX)                 │  │
+│  │  • Automated Shutdown Sequence:                          │  │
+│  │    1. Stop replication (if applicable)                   │  │
+│  │    2. Drain connections                                  │  │
+│  │    3. Final backup + validation                          │  │
+│  │    4. Delete database instance                           │  │
+│  │    5. Remove from monitoring                             │  │
+│  │    6. Update CMDB/inventory                              │  │
+│  │  • Cost Savings Tracking                                 │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Routine Maintenance Automation                  │  │
+│  │  • Patch Management (OS, middleware)                     │  │
+│  │  • Log Rotation & Cleanup                                │  │
+│  │  • Disk Space Management                                 │  │
+│  │  • Temporary Resource Cleanup                            │  │
+│  │  • Scheduled Restarts (with approval)                    │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Ticketing & Workflow Integration              │  │
+│  │  • ServiceNow Integration (auto-create/update tickets)   │  │
+│  │  • Approval Workflows (high-risk operations)             │  │
+│  │  • Change Management (CAB integration)                   │  │
+│  │  • Audit Logging (all actions with evidence)             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Automated SPN Rotation**: Eliminates manual credential rotation, reduces security risk
+- **Database Lifecycle Management**: Safely decommissions databases with compliance checks and backups
+- **Proactive Credential Management**: Prevents service outages due to expired credentials
+- **Compliance Automation**: Enforces password rotation policies and audit requirements
+- **Toil Reduction**: Automates repetitive infrastructure tasks (80%+ time savings)
+
+**Example Workflow (SPN Rotation):**
+1. Detects Service Principal expiring in 30 days
+2. Creates ServiceNow change request for rotation
+3. Upon approval (or auto-approval for non-production):
+   - Generates new SPN credentials in Azure AD
+   - Updates Key Vault with new secret
+   - Triggers application configuration update (WCNP/OneOps)
+   - Validates connectivity with new credentials
+   - Schedules old credential deletion (7-day grace period)
+4. Monitors application health post-rotation
+5. Closes ServiceNow ticket with evidence and audit trail
+6. Updates compliance dashboard
+
+**Example Workflow (Database Decommission):**
+1. Receives decommission request via ServiceNow
+2. Validates prerequisites:
+   - No active connections in last 7 days
+   - Application owner approval obtained
+   - Backup retention policy confirmed
+3. Executes decommission sequence:
+   - Takes final backup, validates integrity
+   - Stops database replication
+   - Drains remaining connections
+   - Deletes database instance
+   - Removes monitoring alerts
+   - Updates inventory agent
+4. Calculates cost savings: $450/month
+5. Generates completion report with audit trail
+
+**Integration Points:**
+- Azure AD/Entra ID (SPN management)
+- Azure Key Vault, HashiCorp Vault (secrets)
+- WCNP/OneOps deployment platforms
+- Database platforms (SQL Server, PostgreSQL, Oracle)
+- ServiceNow (ticketing, change management)
+- Inventory Agent (asset tracking)
+
+---
+
+##### **5. Monitoring Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       Monitoring Agent                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          WCNP/OneOps Deployment Monitoring               │  │
+│  │  • Deployment Status Tracking                            │  │
+│  │    - In-progress deployments                             │  │
+│  │    - Success/failure rates                               │  │
+│  │    - Deployment duration metrics                         │  │
+│  │  • Service Health Monitoring                             │  │
+│  │    - Instance availability                               │  │
+│  │    - Health check status                                 │  │
+│  │    - Resource utilization (CPU, memory, disk)            │  │
+│  │  • Platform Events & Audit Logs                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Metrics Collection & Aggregation              │  │
+│  │  • Application Metrics (Prometheus, Datadog)             │  │
+│  │    - Request rate, error rate, latency (RED method)      │  │
+│  │    - Throughput, saturation, errors (USE method)         │  │
+│  │  • Infrastructure Metrics                                │  │
+│  │    - Host metrics (CPU, memory, network, disk I/O)       │  │
+│  │    - Container metrics (pod resources, restarts)         │  │
+│  │  • Database Metrics                                      │  │
+│  │    - Query performance, connection pools                 │  │
+│  │    - Replication lag, transaction rates                  │  │
+│  │  • Custom Business Metrics                               │  │
+│  │    - Transaction volumes, conversion rates               │  │
+│  │    - Payment processing success rates                    │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Log Aggregation & Analysis                  │  │
+│  │  • Centralized Log Collection (Splunk, ELK)              │  │
+│  │  • Application Logs (errors, warnings, debug)            │  │
+│  │  • Infrastructure Logs (system logs, audit logs)         │  │
+│  │  • Security Logs (access logs, authentication)           │  │
+│  │  • Log Parsing & Enrichment                              │  │
+│  │  • Error Pattern Detection                               │  │
+│  │  • Log-Based Alerting                                    │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Distributed Tracing & APM                        │  │
+│  │  • Request Tracing (Jaeger, Zipkin, Datadog APM)         │  │
+│  │  • Service Dependency Mapping                            │  │
+│  │  • Latency Breakdown (by service/database/external API)  │  │
+│  │  • Error Trace Analysis                                  │  │
+│  │  • Performance Bottleneck Identification                 │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Visualization & Dashboarding                     │  │
+│  │  • Real-Time Dashboards (Grafana, Datadog)               │  │
+│  │  • Service-Level Dashboards (per application)            │  │
+│  │  • Infrastructure Dashboards (per environment)           │  │
+│  │  • Executive Dashboards (SLA compliance, incidents)      │  │
+│  │  • Custom Dashboards (team-specific views)               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Alerting & Integration                        │  │
+│  │  • Threshold-Based Alerts                                │  │
+│  │  • Anomaly-Based Alerts (ML-driven)                      │  │
+│  │  • Alert Routing to Alert Agent                          │  │
+│  │  • SLO/SLI Tracking & Burn Rate Alerts                   │  │
+│  │  • Integration with Incident Management                  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Unified Observability**: Complete visibility into WCNP/OneOps deployments (metrics, logs, traces)
+- **Deployment Tracking**: Real-time visibility into deployment status and health across environments
+- **Performance Monitoring**: Tracks application performance, identifies bottlenecks
+- **Proactive Alerting**: Detects issues before they impact users via ML-based anomaly detection
+- **Full-Stack Visibility**: From infrastructure to application to business metrics
+
+**Example Workflow:**
+1. Monitors WCNP deployment of payment-service v4.1.0 to production
+2. Tracks deployment progress: 10/10 instances deployed, health checks passing
+3. Collects metrics post-deployment:
+   - Latency p95: 145ms (baseline: 150ms) ✅
+   - Error rate: 0.08% (baseline: 0.1%) ✅
+   - CPU usage: 52% (baseline: 48%) ⚠️ slightly elevated
+4. Analyzes traces: Identifies new database query taking 15ms (acceptable)
+5. Monitors for 30 minutes: All metrics within acceptable range
+6. Sends confirmation to CI/CD Agent: Deployment healthy, safe to proceed
+7. Updates baseline metrics for future deployments
+
+**Integration Points:**
+- WCNP/OneOps platform APIs
+- Prometheus, Grafana (metrics)
+- Splunk, ELK Stack (logs)
+- Jaeger, Zipkin, Datadog APM (traces)
+- Alert Agent (alert routing)
+- CI/CD Agent (deployment feedback)
+
+---
+
+##### **6. CI/CD Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         CI/CD Agent                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Pipeline Gate Management                      │  │
+│  │  • Quality Gates                                         │  │
+│  │    - Code coverage threshold (>80%)                      │  │
+│  │    - Code quality (SonarQube gates)                      │  │
+│  │    - Security scan gates (no critical vulnerabilities)   │  │
+│  │    - Performance benchmark gates                         │  │
+│  │  • Approval Gates                                        │  │
+│  │    - Manual approval for production                      │  │
+│  │    - Automated approval for non-prod (based on tests)    │  │
+│  │    - Change advisory board (CAB) integration             │  │
+│  │  • Environment Gates                                     │  │
+│  │    - Dev → QA → UAT → Production progression             │  │
+│  │    - Environment-specific validation                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Build Tracking & Analytics                  │  │
+│  │  • Build Success/Failure Tracking                        │  │
+│  │  • Build Duration Monitoring                             │  │
+│  │  • Flaky Build Detection                                 │  │
+│  │  • Build Trends & Patterns                               │  │
+│  │  • Dependency Build Impact Analysis                      │  │
+│  │  • Build Artifact Management                             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Automated Testing Orchestration                  │  │
+│  │  • Unit Test Execution & Reporting                       │  │
+│  │  • Integration Test Automation                           │  │
+│  │  • End-to-End (E2E) Testing                              │  │
+│  │    - UI automation (Selenium, Playwright)                │  │
+│  │    - API testing (Postman, REST Assured)                 │  │
+│  │    - Critical user journey validation                    │  │
+│  │  • Performance Testing                                   │  │
+│  │    - Load testing (JMeter, Gatling, k6)                  │  │
+│  │    - Stress testing                                      │  │
+│  │    - Endurance testing                                   │  │
+│  │    - Performance regression detection                    │  │
+│  │  • Test Result Analysis & Reporting                      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Deployment Orchestration (WCNP/OneOps)           │  │
+│  │  • Multi-Environment Deployment                          │  │
+│  │  • Blue-Green Deployment Strategy                        │  │
+│  │  • Canary Deployment (gradual rollout)                   │  │
+│  │  • Rolling Update Orchestration                          │  │
+│  │  • Deployment Health Validation                          │  │
+│  │  • Integration with Monitoring Agent (metrics feedback)  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Rollback & Recovery Management                │  │
+│  │  • Automated Rollback Triggers                           │  │
+│  │    - Error rate threshold exceeded                       │  │
+│  │    - Performance degradation detected                    │  │
+│  │    - Health check failures                               │  │
+│  │  • One-Click Manual Rollback                             │  │
+│  │  • Version Pinning & Rollback History                    │  │
+│  │  • Rollback Validation (ensure stable state)             │  │
+│  │  • Post-Rollback Analysis                                │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Pipeline Analytics & Optimization               │  │
+│  │  • Deployment Frequency Metrics (DORA metrics)           │  │
+│  │  • Lead Time for Changes                                 │  │
+│  │  • Change Failure Rate                                   │  │
+│  │  • Mean Time to Recovery (MTTR)                          │  │
+│  │  • Pipeline Bottleneck Identification                    │  │
+│  │  • Optimization Recommendations                          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Comprehensive Pipeline Gates**: Enforces quality, security, and performance standards at every stage
+- **Automated Testing**: Executes unit, integration, E2E, and performance tests automatically
+- **Deployment Safety**: Canary deployments with automated rollback on regression
+- **Performance Validation**: Ensures deployments don't degrade performance
+- **DORA Metrics**: Tracks deployment frequency, lead time, failure rate, and MTTR
+
+**Example Workflow (Production Deployment):**
+1. Developer merges code to main branch
+2. CI/CD Agent triggers pipeline:
+   - **Build Stage**: Compile code, run unit tests (passes ✅)
+   - **Quality Gate**: SonarQube analysis (code coverage 85%, passes ✅)
+   - **Security Gate**: Dependency scan, SAST (no critical issues ✅)
+   - **Deploy to QA**: Automated deployment to QA environment
+   - **Integration Tests**: Execute 150 integration tests (148 pass, 2 fail ❌)
+3. Marks build as unstable, notifies developer
+4. Developer fixes failing tests, re-runs pipeline
+5. All tests pass, proceeds to UAT
+6. **E2E Testing**: Execute critical user journeys (all pass ✅)
+7. **Performance Testing**: Run load test (1000 req/s for 10 min)
+   - Latency p95: 180ms (target: <200ms) ✅
+   - Error rate: 0.05% (target: <0.1%) ✅
+   - CPU usage: 65% (target: <80%) ✅
+8. **Production Gate**: Request manual approval
+9. Upon approval, deploy to production (canary strategy):
+   - Deploy to 10% of instances, monitor for 15 minutes
+   - Monitoring Agent confirms metrics within baseline
+   - Promote to 50%, monitor for 10 minutes
+   - Promote to 100%
+10. Deployment complete, MTTR logged: 35 minutes
+
+**Integration Points:**
+- GitHub, GitLab, Bitbucket (source control)
+- Jenkins, GitHub Actions, Azure DevOps (CI/CD platforms)
+- WCNP/OneOps (deployment platforms)
+- SonarQube (code quality)
+- JMeter, Gatling, k6 (performance testing)
+- Monitoring Agent (deployment health feedback)
+- ServiceNow (change management)
+
+---
+
+##### **7. Certificate Management Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                 Certificate Management Agent                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Certificate Discovery & Inventory                │  │
+│  │  • OneOps Environment Scanning                           │  │
+│  │  • WCNP Service Certificate Enumeration                  │  │
+│  │  • SSL/TLS Certificate Discovery                         │  │
+│  │    - Load balancers (Application Gateway, ALB, NGINX)    │  │
+│  │    - Web servers (IIS, Apache, Tomcat)                   │  │
+│  │    - API gateways                                        │  │
+│  │  • Client Certificates (mutual TLS)                      │  │
+│  │  • Code Signing Certificates                             │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Expiration Monitoring & Alerting                │  │
+│  │  • Continuous Expiration Tracking                        │  │
+│  │  • Multi-Tier Alerting:                                  │  │
+│  │    - 90 days: Informational alert to team               │  │
+│  │    - 60 days: Warning + ServiceNow ticket creation       │  │
+│  │    - 30 days: Critical alert + escalation                │  │
+│  │    - 7 days: Executive notification + urgent action      │  │
+│  │  • Certificate Chain Validation                          │  │
+│  │  • Root CA/Intermediate CA Expiration Tracking           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │        Automated Renewal & Rotation Workflow             │  │
+│  │  • Certificate Request Generation (CSR)                  │  │
+│  │  • CA Integration (Let's Encrypt, DigiCert, internal CA) │  │
+│  │  • Automated Renewal (60 days before expiry)             │  │
+│  │  • Certificate Deployment:                               │  │
+│  │    - OneOps platform update                              │  │
+│  │    - WCNP service configuration update                   │  │
+│  │    - Load balancer certificate rotation                  │  │
+│  │    - Application restart (if required)                   │  │
+│  │  • Validation Testing (HTTPS endpoint checks)            │  │
+│  │  • Old Certificate Cleanup                               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │           Compliance & Security Validation               │  │
+│  │  • Certificate Strength Validation (key size, algorithm) │  │
+│  │    - Minimum 2048-bit RSA or 256-bit ECC                 │  │
+│  │    - SHA-256 or stronger signature algorithm             │  │
+│  │  • Certificate Best Practices                            │  │
+│  │    - No wildcard certificates in production (policy)     │  │
+│  │    - Subject Alternative Names (SAN) validation          │  │
+│  │  • Revocation Status (OCSP, CRL checking)                │  │
+│  │  • Compliance Reporting (SOX, PCI-DSS requirements)      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Certificate Lifecycle Reporting               │  │
+│  │  • Certificate Inventory Dashboard                       │  │
+│  │    - Total certificates by environment                   │  │
+│  │    - Expiration timeline view                            │  │
+│  │    - Certificate health status                           │  │
+│  │  • Audit Logs (all certificate operations)               │  │
+│  │  • Renewal Success/Failure Tracking                      │  │
+│  │  • Cost Tracking (CA fees, certificate purchases)        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Proactive Expiration Management**: Eliminates certificate-related outages through early detection and renewal
+- **Automated Renewal**: Handles certificate lifecycle without manual intervention (Let's Encrypt integration)
+- **Multi-Platform Support**: Manages certificates across OneOps, WCNP, load balancers, and web servers
+- **Compliance Enforcement**: Ensures certificates meet security standards and regulatory requirements
+- **Zero-Downtime Rotation**: Updates certificates without service interruption
+
+**Example Workflow (Automated Renewal):**
+1. Daily scan detects certificate for api.usomni.com expiring in 60 days
+2. Creates ServiceNow ticket for tracking
+3. Triggers automated renewal workflow:
+   - Generates Certificate Signing Request (CSR)
+   - Submits to Let's Encrypt CA (automated validation)
+   - Receives new certificate
+   - Validates certificate chain and properties
+4. Schedules deployment during maintenance window
+5. Deployment execution:
+   - Uploads new certificate to Azure Key Vault
+   - Updates Application Gateway listener
+   - Updates OneOps environment configuration
+   - Validates HTTPS endpoint (curl test passes ✅)
+   - Removes old certificate (7-day grace period)
+6. Sends confirmation notification: "Certificate renewed successfully"
+7. Closes ServiceNow ticket with audit trail
+8. Updates compliance dashboard: 100% certificates valid
+
+**Example Workflow (Expiration Alert):**
+1. Certificate for payment.usomni.com expiring in 15 days (missed renewal)
+2. Escalates to P1 alert (critical)
+3. Creates urgent ServiceNow ticket
+4. Notifies team lead and manager via email + Slack
+5. Attempts automated renewal (expedited process)
+6. If successful: Crisis averted, postmortem generated
+7. If failed: Escalates to manual intervention with detailed instructions
+
+**Integration Points:**
+- Certificate Authorities (Let's Encrypt, DigiCert, internal CA)
+- Azure Key Vault, HashiCorp Vault (certificate storage)
+- OneOps platform APIs
+- WCNP service configuration
+- Azure Application Gateway, AWS ALB (load balancers)
+- ServiceNow (ticketing)
+- Alert Agent (notifications)
+
+---
+
+##### **8. GitHub Access Agent**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     GitHub Access Agent                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Access Request & Approval Workflow               │  │
+│  │  • Self-Service Access Request Portal                    │  │
+│  │    - Repository access requests                          │  │
+│  │    - Team membership requests                            │  │
+│  │    - Permission level requests (read/write/admin)        │  │
+│  │  • Automated Approval Routing                            │  │
+│  │    - Repository owner approval                           │  │
+│  │    - Manager approval (for elevated permissions)         │  │
+│  │    - Security review (for admin access)                  │  │
+│  │  • ServiceNow Integration (access requests as tickets)   │  │
+│  │  • SLA Tracking (approval within 24 hours)               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          User & Team Provisioning                        │  │
+│  │  • Automated User Onboarding                             │  │
+│  │    - Create GitHub user (if new)                         │  │
+│  │    - Add to appropriate teams                            │  │
+│  │    - Grant repository permissions                        │  │
+│  │    - Set up branch protection rules                      │  │
+│  │  • Team Management                                       │  │
+│  │    - Create/update/delete teams                          │  │
+│  │    - Sync teams with org structure (AD/Entra ID)         │  │
+│  │    - Nested team hierarchies                             │  │
+│  │  • Role-Based Access Control (RBAC)                      │  │
+│  │    - Developer: read/write to assigned repos             │  │
+│  │    - Lead: admin on team repos                           │  │
+│  │    - Architect: organization-level permissions           │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Access Review & Compliance                       │  │
+│  │  • Periodic Access Reviews (quarterly)                   │  │
+│  │    - Generate access reports by user/team/repo           │  │
+│  │    - Send to managers for validation                     │  │
+│  │    - Auto-remove access not confirmed                    │  │
+│  │  • Inactive User Detection                               │  │
+│  │    - Identify users inactive >90 days                    │  │
+│  │    - Automated access revocation                         │  │
+│  │  • Excessive Permission Detection                        │  │
+│  │    - Alert on admin access to >10 repos                  │  │
+│  │    - Review least-privilege violations                   │  │
+│  │  • Compliance Reporting (SOX, audit requirements)        │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │          Offboarding & Access Revocation                 │  │
+│  │  • Automated Offboarding (triggered by HR system)        │  │
+│  │    - Revoke all repository access                        │  │
+│  │    - Remove from all teams                               │  │
+│  │    - Disable GitHub account                              │  │
+│  │    - Transfer ownership (if repo owner)                  │  │
+│  │  • Role Change Handling                                  │  │
+│  │    - Adjust permissions when user changes team/role      │  │
+│  │  • Temporary Access Management                           │  │
+│  │    - Grant time-limited access (contractors, vendors)    │  │
+│  │    - Auto-revoke at expiration date                      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │         Security & Governance Enforcement                │  │
+│  │  • Two-Factor Authentication (2FA) Enforcement           │  │
+│  │  • Branch Protection Rules                               │  │
+│  │    - Require pull request reviews                        │  │
+│  │    - Require status checks (CI passing)                  │  │
+│  │    - Restrict force pushes                               │  │
+│  │  • Secret Scanning & Exposure Prevention                 │  │
+│  │  • Audit Logging (all access grants/revocations)         │  │
+│  │  • Integration with Security Agent (vulnerability alerts)│  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                           ↓                                     │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │            Analytics & Reporting                         │  │
+│  │  • User Access Dashboard                                 │  │
+│  │    - Who has access to what                              │  │
+│  │    - Permission levels breakdown                         │  │
+│  │  • Access Request Metrics                                │  │
+│  │    - Request volume, approval time                       │  │
+│  │    - Pending requests (SLA compliance)                   │  │
+│  │  • Repository Activity Tracking                          │  │
+│  │    - Commits, pull requests, code reviews                │  │
+│  │  • Compliance Reports for Audits                         │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities:**
+- **Self-Service Access**: Developers request access via portal, automated approval routing
+- **Automated Provisioning**: Instant access grants upon approval, no manual admin work
+- **Compliance Automation**: Quarterly access reviews, inactive user cleanup, audit trails
+- **Offboarding Safety**: Automatically revokes all access when employees leave
+- **Security Enforcement**: 2FA required, branch protection enforced, secret scanning enabled
+
+**Example Workflow (New User Onboarding):**
+1. New developer joins Payments team
+2. Manager submits access request via portal:
+   - Team: Payments
+   - Repositories: payment-service, payment-gateway, payment-ui
+   - Permission: Write (read/write)
+3. Agent validates request:
+   - Manager has approval authority ✅
+   - Repositories exist ✅
+   - User doesn't already have access ✅
+4. Auto-approval (within policy guidelines)
+5. Provisions access:
+   - Creates GitHub user account
+   - Adds to "Payments" team
+   - Grants write permission to 3 repositories
+   - Enforces 2FA enrollment
+   - Applies branch protection rules
+6. Sends welcome email with instructions
+7. Logs access grant in audit trail
+8. Updates ServiceNow ticket: Completed
+
+**Example Workflow (Quarterly Access Review):**
+1. Scheduled quarterly access review triggered
+2. Generates access reports per manager:
+   - Manager: John Doe
+   - Team: Payments (15 members)
+   - Repositories: 8
+   - Total access grants: 120
+3. Sends review request to manager via email
+4. Manager reviews and confirms:
+   - 13 users: Access confirmed ✅
+   - 1 user (Jane): Transferred to another team → revoke access
+   - 1 user (Bob): Inactive (left company) → revoke access
+5. Agent processes changes:
+   - Revokes Jane's access to Payments repos
+   - Provisions Jane with new team's access
+   - Revokes Bob's access completely
+   - Logs all changes in audit trail
+6. Generates compliance report: 100% review completed
+
+---
+
+##### **9. Overall Incident Management / Integration Layer**
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│              OVERALL INCIDENT MANAGEMENT & INTEGRATION LAYER                │
+│                     (Orchestrates All Domain Agents)                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  INCIDENT DETECTION & CORRELATION                                           │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                                                                        │  │
+│  │   ┌──────────────┐      ┌──────────────┐      ┌──────────────┐       │  │
+│  │   │ Alert Agent  │─────▶│ Monitoring   │─────▶│  Inventory   │       │  │
+│  │   │              │      │    Agent     │      │    Agent     │       │  │
+│  │   │ • Aggregates │      │ • Validates  │      │ • Provides   │       │  │
+│  │   │   alerts     │      │   metrics    │      │   context    │       │  │
+│  │   │ • Dedupes    │      │ • Enriches   │      │ • Maps deps  │       │  │
+│  │   │ • Prioritizes│      │   with logs  │      │              │       │  │
+│  │   └──────────────┘      └──────────────┘      └──────────────┘       │  │
+│  │          │                      │                      │               │  │
+│  │          └──────────────────────┴──────────────────────┘               │  │
+│  │                              │                                         │  │
+│  │                              ▼                                         │  │
+│  │                   ┌────────────────────────┐                           │  │
+│  │                   │ Unified Incident       │                           │  │
+│  │                   │ Context Builder        │                           │  │
+│  │                   │ • Correlates signals   │                           │  │
+│  │                   │ • Builds timeline      │                           │  │
+│  │                   │ • Identifies impact    │                           │  │
+│  │                   └────────────────────────┘                           │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  INCIDENT CLASSIFICATION & ROUTING                                          │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  Decision Engine: "What type of incident is this?"                    │  │
+│  │                                                                        │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  Incident Type Detection (ML + Rule-Based)                      │  │  │
+│  │  │                                                                  │  │  │
+│  │  │  □ Deployment Failure         → Route to CI/CD Agent            │  │  │
+│  │  │  □ Certificate Expiration     → Route to Cert Management Agent  │  │  │
+│  │  │  □ Performance Degradation    → Route to Monitoring Agent       │  │  │
+│  │  │  □ Infrastructure Issue       → Route to Infra Support Agent    │  │  │
+│  │  │  □ Disaster Event             → Route to DR Agent               │  │  │
+│  │  │  □ Access/Permission Issue    → Route to GitHub Access Agent    │  │  │
+│  │  │  □ Configuration Drift        → Route to Inventory Agent        │  │  │
+│  │  │  □ Multi-Component Failure    → Route to Multiple Agents        │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  AGENT ORCHESTRATION & COORDINATION                                         │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                                                                        │  │
+│  │  Scenario 1: Deployment Failure with Infrastructure Impact            │  │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │  │
+│  │  │                                                                   │ │  │
+│  │  │  1. CI/CD Agent: Detects deployment failure                      │ │  │
+│  │  │     └─▶ Requests rollback decision                               │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  2. Monitoring Agent: Validates impact                           │ │  │
+│  │  │     • Error rate: 12% (critical)                                 │ │  │
+│  │  │     • Latency: +400%                                             │ │  │
+│  │  │     └─▶ Recommends immediate rollback                            │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  3. Inventory Agent: Provides deployment context                 │ │  │
+│  │  │     • Affected services: payment-service (15 instances)          │ │  │
+│  │  │     • Dependencies: PostgreSQL, Redis, API Gateway               │ │  │
+│  │  │     └─▶ Confirms safe to rollback                                │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  4. Integration Layer: Orchestrates multi-agent response         │ │  │
+│  │  │     ├─▶ CI/CD Agent: Execute rollback                            │ │  │
+│  │  │     ├─▶ Infra Support Agent: Check infrastructure health         │ │  │
+│  │  │     ├─▶ Monitoring Agent: Track recovery metrics                 │ │  │
+│  │  │     └─▶ Alert Agent: Notify stakeholders with context            │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  5. Validation & Closure                                         │ │  │
+│  │  │     • All metrics returned to baseline ✅                         │ │  │
+│  │  │     • ServiceNow incident auto-closed with postmortem            │ │  │
+│  │  └──────────────────────────────────────────────────────────────────┘ │  │
+│  │                                                                        │  │
+│  │  Scenario 2: Impending Certificate Expiration                         │  │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │  │
+│  │  │                                                                   │ │  │
+│  │  │  1. Cert Management Agent: Detects cert expiring in 15 days      │ │  │
+│  │  │     └─▶ Triggers automated renewal workflow                      │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  2. Inventory Agent: Identifies affected services                │ │  │
+│  │  │     • Services using cert: api.usomni.com (20 instances)         │ │  │
+│  │  │     • Load balancers: Azure App Gateway (prod-useast-agw-01)     │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  3. CI/CD Agent: Schedules deployment window                     │ │  │
+│  │  │     • Maintenance window: Saturday 2 AM - 4 AM                   │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  4. Integration Layer: Coordinates renewal                       │ │  │
+│  │  │     ├─▶ Cert Management: Renew certificate                       │ │  │
+│  │  │     ├─▶ Infra Support: Update App Gateway, OneOps config         │ │  │
+│  │  │     ├─▶ Monitoring Agent: Validate HTTPS endpoints               │ │  │
+│  │  │     └─▶ Alert Agent: Send completion notification                │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  5. Validation: Certificate renewed, zero downtime ✅             │ │  │
+│  │  └──────────────────────────────────────────────────────────────────┘ │  │
+│  │                                                                        │  │
+│  │  Scenario 3: Disaster Recovery Event                                  │  │
+│  │  ┌──────────────────────────────────────────────────────────────────┐ │  │
+│  │  │                                                                   │ │  │
+│  │  │  1. Alert Agent: Receives 500+ alerts from primary datacenter    │ │  │
+│  │  │     • Correlates to: Primary region outage                       │ │  │
+│  │  │     └─▶ Escalates to P0, triggers DR workflow                    │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  2. DR Agent: Validates DR trigger conditions                    │ │  │
+│  │  │     • Primary region: Unreachable for 5+ minutes                 │ │  │
+│  │  │     • Critical services: Down                                    │ │  │
+│  │  │     └─▶ Initiates automated failover                             │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  3. Integration Layer: Orchestrates DR failover                  │ │  │
+│  │  │     ├─▶ DR Agent: Execute failover runbook                       │ │  │
+│  │  │     ├─▶ Infra Support: Promote standby DB, update DNS            │ │  │
+│  │  │     ├─▶ CI/CD Agent: Deploy services to DR region                │ │  │
+│  │  │     ├─▶ Monitoring Agent: Validate service health in DR region   │ │  │
+│  │  │     ├─▶ Cert Management: Ensure certs valid in DR region         │ │  │
+│  │  │     ├─▶ Inventory Agent: Update service locations                │ │  │
+│  │  │     └─▶ Alert Agent: Notify leadership, on-call teams            │ │  │
+│  │  │                                                                   │ │  │
+│  │  │  4. Validation: All services running in DR region ✅              │ │  │
+│  │  │     • RTO: 12 minutes (target: <15 minutes)                      │ │  │
+│  │  │     • RPO: 30 seconds (data loss minimal)                        │ │  │
+│  │  └──────────────────────────────────────────────────────────────────┘ │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  INCIDENT RESOLUTION & LEARNING                                             │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │  • Postmortem Generation (automated)                                  │  │
+│  │  • Root Cause Documentation                                           │  │
+│  │  • Knowledge Base Update (runbooks, wikis)                            │  │
+│  │  • Model Training (improve future incident detection/classification) │  │
+│  │  • Compliance Reporting (SOX, audit trails)                           │  │
+│  │  • Stakeholder Notification (status updates, closure)                 │  │
+│  │  • Metrics Tracking (MTTR, MTTD, incident count)                      │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  INTEGRATION POINTS                                                         │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                                                                        │  │
+│  │  External Systems:                                                     │  │
+│  │  • ServiceNow (incident/change management)                             │  │
+│  │  • PagerDuty/Opsgenie (on-call management)                             │  │
+│  │  • Slack/Teams (collaboration)                                         │  │
+│  │  • WCNP/OneOps (deployment platforms)                                  │  │
+│  │  • Splunk/Datadog/Prometheus (observability)                           │  │
+│  │  • GitHub (source control, access management)                          │  │
+│  │  • Azure AD (identity management)                                      │  │
+│  │  • Azure Key Vault (secrets management)                                │  │
+│  │                                                                        │  │
+│  │  Inter-Agent Communication:                                            │  │
+│  │  • Event Bus (Kafka/RabbitMQ) for async messaging                      │  │
+│  │  • REST APIs for synchronous requests                                  │  │
+│  │  • Shared Context Store (Redis) for incident state                     │  │
+│  │  • Audit Log Aggregation (centralized compliance logging)              │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Key Capabilities of Integration Layer:**
+
+1. **Unified Incident Context**: Aggregates signals from all agents into coherent incident view
+2. **Intelligent Routing**: Classifies incidents and routes to appropriate specialist agents
+3. **Multi-Agent Orchestration**: Coordinates complex scenarios requiring multiple agents
+4. **Conflict Resolution**: Manages competing priorities (e.g., deployment vs. security alert)
+5. **End-to-End Tracking**: Maintains incident state across all agent interactions
+6. **Compliance & Audit**: Captures complete trail of all actions across agents
+7. **Performance Analytics**: Tracks SLAs, MTTR, agent effectiveness
+
+**Integration Layer Benefits:**
+- **Single Pane of Glass**: Operators see unified incident view, not agent-specific silos
+- **Automated Triage**: Reduces manual incident classification from 10 minutes to < 1 minute
+- **Faster Resolution**: Multi-agent coordination resolves complex incidents 3-5x faster
+- **Complete Auditability**: Every incident has full timeline with agent actions logged
+- **Continuous Improvement**: Learns from multi-agent interactions to optimize future responses
+
+---
 
 **Architecture:**
 ```
@@ -1305,17 +2372,18 @@ OUTCOME: Incident detected, root cause identified, remediated, and learned from
 
 ### 6.0 Multi-Agent Collaboration Architecture
 
-Before diving into individual agent capabilities, it's important to understand how agents collaborate to achieve complex objectives that span multiple domains.
+Before diving into individual agent capabilities, it's important to understand how agents collaborate to achieve complex objectives that span multiple domains in US Omni systems.
 
 #### **Multi-Agent Collaboration Diagram**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                   MULTI-AGENT COLLABORATION SCENARIO                        │
-│              Secure Deployment with Cost Optimization & Monitoring          │
+│         Production Deployment to WCNP with Full Validation & Monitoring     │
+│                           (US Omni Payment Service)                         │
 └─────────────────────────────────────────────────────────────────────────────┘
 
-Developer Commits Code (payment-service v2.4.0)
+Developer Commits Code (payment-service v3.5.0) to GitHub
         │
         ▼
 ┌───────────────────────────────────────────────────────────────────────────┐
@@ -1492,13 +2560,14 @@ Developer Commits Code (payment-service v2.4.0)
                                                 │  └──────────────────────┘  │
                                                 └────────────────────────────┘
 
-OUTCOME: Secure, cost-optimized deployment with zero human intervention,
-         complete monitoring, and full audit trail.
+OUTCOME: Secure, compliant production deployment to WCNP with zero human intervention,
+         complete monitoring, certificate validation, and full audit trail.
 
-AGENTS INVOLVED: 6 (CI/CD, Security, Infrastructure, FinOps, Observability, Collaboration)
-TOTAL TIME: 35 minutes (manual process would take 4+ hours)
-HUMAN APPROVALS: 0 (all within policy guardrails)
-AUDIT EVENTS: 24 (complete traceability)
+AGENTS INVOLVED: 7 (GitHub Access, CI/CD, Cert Management, Infrastructure Support, 
+                     Monitoring, Inventory, Alert)
+TOTAL TIME: 42 minutes (manual process would take 6+ hours)
+HUMAN APPROVALS: 1 (production deployment gate)
+AUDIT EVENTS: 28 (complete traceability for SOX compliance)
 ```
 
 #### **Agent Coordination Patterns**
